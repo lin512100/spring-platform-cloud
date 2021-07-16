@@ -1,0 +1,94 @@
+package ${package.ServiceImpl};
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import ${config.injectionConfig.map.packageWebUtils}.PageVo;
+import ${config.injectionConfig.map.superDtoClass}.${entity}Dto;
+import ${config.injectionConfig.map.superVoClass}.${entity}Vo;
+import ${config.injectionConfig.map.packageException}.SystemErrorCode;
+import ${config.injectionConfig.map.packageUtils}.ValidateUtils;
+import ${config.injectionConfig.map.packageAnnotation}.AutoDictFieldValue;
+import org.springframework.stereotype.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.page.PageMethod;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
+
+/**
+ * $!{table.comment} 服务实现类
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    @Override
+    public Long add(${entity}Dto dto) {
+        ${entity} entity = toEntity(dto);
+        ValidateUtils.isTrue(entity.getId() != null, SystemErrorCode.PARAM_ERROR, ${entity}.ID);
+        this.getBaseMapper().insert(entity);
+        return entity.getId();
+    }
+
+    @Override
+    public void del(${entity}Dto dto) {
+        ValidateUtils.noEmpty(dto.getId(), ${entity}.ID);
+        ${entity} one = baseMapper.selectById(dto.getId());
+        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "$!{table.comment}");
+        this.baseMapper.deleteById(one.getId());
+    }
+
+    @Override
+    public void modify(${entity}Dto dto) {
+        ValidateUtils.noEmpty(dto.getId(), ${entity}.ID);
+        ${entity} entity = toEntity(dto);
+        // 判断信息是否存在
+        ${entity} one = this.getBaseMapper().selectById(dto.getId());
+        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "$!{table.comment}");
+        BeanUtils.copyProperties(entity, one);
+        this.getBaseMapper().updateById(one);
+    }
+
+    @Override
+    public PageVo<${entity}Vo> list(${entity}Dto dto) {
+        ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
+        Page<${entity}> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(
+        () -> this.queryByParams(toEntity(dto)));
+        return new PageVo<>(page.getPageSize(), page.getPageNum(), page.getTotal(), assembleDataList(page.getResult()));
+    }
+
+    @Override
+    public List<${entity}Vo> assembleDataList(List<${entity}> dataList) {
+    if (CollectionUtils.isEmpty(dataList)) {
+        return new ArrayList<>();
+    }
+        return dataList.stream().map(this::toVo).collect(Collectors.toList());
+    }
+
+    @Override
+    public ${entity} toEntity(${entity}Dto dto) {
+        ${entity} entity = new ${entity}();
+        BeanUtils.copyProperties(dto, entity);
+        return entity;
+    }
+
+    @Override
+    @AutoDictFieldValue
+    public ${entity}Vo toVo(${entity} entity) {
+        ${entity}Vo vo = new ${entity}Vo();
+        BeanUtils.copyProperties(entity, vo);
+        return vo;
+    }
+
+}
+#end

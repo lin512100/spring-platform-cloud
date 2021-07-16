@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: PLATFORM-ADMIN
+
+server:
+  port: 8081
+logging:
+  level:
+    org.springframework: DEBUG

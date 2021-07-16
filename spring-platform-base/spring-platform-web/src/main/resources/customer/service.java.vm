@@ -1,0 +1,72 @@
+package ${package.Service};
+
+import java.util.List;
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import ${config.injectionConfig.map.packageWebUtils}.PageVo;
+import ${config.injectionConfig.map.superDtoClass}.${entity}Dto;
+import ${config.injectionConfig.map.superVoClass}.${entity}Vo;
+
+
+/**
+ * <p>
+ * $!{table.comment} 服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    /**
+     * $!{table.comment}新增
+     * @param dto {@link ${entity}Dto}
+     * @return 新增主键
+     */
+    Long add(${entity}Dto dto);
+
+    /**
+     * $!{table.comment}删除
+     * @param dto {@link ${entity}Dto}
+     */
+    void del(${entity}Dto dto);
+
+    /**
+     * $!{table.comment}修改
+     * @param dto {@link ${entity}Dto}
+     */
+    void modify(${entity}Dto dto);
+
+    /**
+     * $!{table.comment}列表
+     * @param dto {@link ${entity}Dto}
+     * @return {@link ${entity}Vo}
+     */
+    PageVo<${entity}Vo> list(${entity}Dto dto);
+
+    /**
+    * 封装数据列表
+    * @param dataList 数据列表
+    * @return 封装的数据列表
+    */
+    List<${entity}Vo> assembleDataList(List<${entity}> dataList);
+
+    /**
+     * DTO转实体类
+     * @param dto DTO
+     * @return 实体类
+     */
+    ${entity} toEntity(${entity}Dto dto);
+
+    /**
+     * 实体类转VO
+     * @param entity 实体类
+     * @return VO
+     */
+    ${entity}Vo toVo(${entity} entity);
+    
+}
+#end

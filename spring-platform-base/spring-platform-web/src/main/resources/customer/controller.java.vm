@@ -1,0 +1,72 @@
+package ${package.Controller};
+
+import javax.annotation.Resource;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+import ${config.injectionConfig.map.packageResponse}.ResultData;
+import ${config.injectionConfig.map.packageWebUtils}.PageVo;
+import ${config.injectionConfig.map.superDtoClass}.${entity}Dto;
+import ${config.injectionConfig.map.superVoClass}.${entity}Vo;
+import ${package.Service}.${table.serviceName};
+
+#if(${restControllerStyle})
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+/**
+ * $!{table.comment} 前端控制器
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@Api(tags = "$!{table.comment} 前端控制器")
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+    @Resource
+    private ${entity}Service service;
+
+    @PostMapping("/add")
+    @ApiOperation(value = "$!{table.comment}新增")
+    public ResultData<Long> add(@RequestBody ${entity}Dto dto) {
+        return ResultData.success(service.add(dto));
+    }
+
+    @PostMapping("/del")
+    @ApiOperation(value = "$!{table.comment}删除")
+    public ResultData<Long> del(@RequestBody ${entity}Dto dto) {
+        service.del(dto);
+        return ResultData.success();
+    }
+
+    @PostMapping("/modify")
+    @ApiOperation(value = "$!{table.comment}修改")
+    public ResultData<Long> modify(@RequestBody ${entity}Dto dto) {
+        service.modify(dto);
+        return ResultData.success();
+    }
+
+    @PostMapping("/list")
+    @ApiOperation(value = "$!{table.comment}列表")
+    public ResultData<PageVo<${entity}Vo>> list(@RequestBody ${entity}Dto dto) {
+        return ResultData.success(service.list(dto));
+    }
+
+}
+#end

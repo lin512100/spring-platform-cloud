@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: PLATFORM-USER
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 42.192.99.152:8848
+  #      config:
+  #        # 配置中心地址
+  #        server-addr: 127.0.0.1:8848
+  #        # 命名空间
+  #        namespace: d1b9e369-5ad4-4151-a09f-800ebe5a82ee
+  #        file-extension: yml
+  #        timeout: 10000
+  profiles:
+    active: mysql,oauth,redis
+server:
+  port: 5201
+  servlet:
+    context-path: /user
