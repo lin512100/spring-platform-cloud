@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: admin,gateway,mysql
+  application:
+    name: PLATFORM-GATEWAY
+server:
+  port: 5201
+debug: true

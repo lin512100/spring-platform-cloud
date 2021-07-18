@@ -1,9 +1,6 @@
 package com.platform.user.controller;
 
 import com.platform.model.vo.OauthUserVo;
-import com.platform.openfeign.service.OauthApiService;
-import com.platform.openfeign.utils.FeignUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +16,6 @@ import java.util.Collections;
 @RequestMapping("/")
 public class UserInfoController {
 
-    @Autowired
-    private OauthApiService oauthApiService;
-
     /**
      * 获取用户信息
      * @param username 用户名
@@ -36,10 +30,5 @@ public class UserInfoController {
         return oauthUserVo;
     }
 
-    @GetMapping("/aa")
-    public String aaaa(){
-        String sysToken = FeignUtils.getSysToken(oauthApiService.getServiceToken(FeignUtils.getTokenMap("Admin","Admin")));
-        return sysToken;
-    }
 
 }

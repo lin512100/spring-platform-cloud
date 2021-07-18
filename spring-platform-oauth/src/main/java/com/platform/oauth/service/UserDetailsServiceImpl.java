@@ -1,8 +1,6 @@
 package com.platform.oauth.service;
 
 import com.platform.oauth.vo.SysUserVO;
-import com.platform.openfeign.service.OauthApiService;
-import com.platform.openfeign.service.UserApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,16 +21,10 @@ import java.util.Collections;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Resource
-    private UserApiService userApiService;
-    @Resource
-    private OauthApiService oauthApiService;
-
-    @Resource
     private PasswordEncoder passwordEncoder;
 
     @Override
     public SysUserVO loadUserByUsername(String username) throws UsernameNotFoundException {
-        // userApiService.loadUserByUsername(username, FeignUtils.sysToken(oauthApiService.getServiceToken(FeignUtils.getTokenMap("Admin", "Admin"))));
         return new SysUserVO(username, passwordEncoder.encode(username), Collections.singleton(new SimpleGrantedAuthority("ROLE")));
     }
 }

@@ -14,6 +14,7 @@
         <module>spring-platform-oauth</module>
         <module>spring-platform-user</module>
         <module>spring-platform-admin</module>
+        <module>spring-platform-gateway</module>
     </modules>
 
     <packaging>pom</packaging>

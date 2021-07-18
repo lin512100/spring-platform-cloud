@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+#      discovery:
+#        locator:
+#          enabled: true               # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由
+      routes:
+        - id: oauth
+          # uri: lb://PLATFORM-OAUTH
+          uri: http://localhost:5203
+          predicates:
+            - Path=/oauth/**
+          filters:
+            - StripPrefix=1
+        - id: user
+#          uri: lb://PLATFORM-USER
+          uri: http://localhost:5202
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
