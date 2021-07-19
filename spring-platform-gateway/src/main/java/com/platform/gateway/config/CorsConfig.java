@@ -12,7 +12,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
  * @date 7/18/2021
  */
 @Configuration
-public class GatewayCorsConfig {
+public class CorsConfig {
     @Bean
     public CorsWebFilter corsWebFilter(){
         CorsConfiguration corsConfiguration = new CorsConfiguration();

@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-platform-model</artifactId>
+    <name>基础组件-数据模型</name>
 
     <dependencies>
         <!-- swagger2 -->

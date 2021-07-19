@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import javax.annotation.Resource;
+
 /**
  * 资源服务配置
  * @author lin512100
@@ -25,7 +27,7 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
 
     public static final String RESOURCE_ID = "res1";
 
-    @Autowired
+    @Resource
     private TokenStore tokenStore;
 
 
@@ -44,16 +46,17 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.resourceId(RESOURCE_ID)
-                //.tokenServices(tokenService())   //ResourceServerTokenServices 类的实例，用来实现令牌服务
-                .tokenStore(tokenStore)
-                .stateless(true);
+            //.tokenServices(tokenService())   //ResourceServerTokenServices 类的实例，用来实现令牌服务
+            .tokenStore(tokenStore)
+            .stateless(true);
     }
+
     /**
      * 默认是InMemoryTokenStore
      * 也可以采用JdbcTokenStore，JwtTokenStore。
      */
     @Bean
-    public TokenStore tokenStore(){
+    public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
 
@@ -69,9 +72,10 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/**").access("#oauth2.hasScope('ROLE_ADMIN')")
-                .and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .antMatchers("/**", "/actuator/**").permitAll()
+            .antMatchers("/**")
+            .access("#oauth2.hasScope('ROLE_ADMIN')")
+            .and().csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }

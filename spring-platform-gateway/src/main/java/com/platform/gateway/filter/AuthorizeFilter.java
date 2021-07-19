@@ -1,8 +1,8 @@
 package com.platform.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.gateway.consts.FilterOrderConst;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -15,13 +15,17 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+
+import static com.platform.security.consts.SecurityConst.*;
 
 /**
  * 自定义拦截器
@@ -32,7 +36,9 @@ import java.util.Map;
 @Slf4j
 public class AuthorizeFilter implements GlobalFilter, Ordered {
 
-    @Autowired
+    private final static String USER_NAME = "user_name";
+
+    @Resource
     private TokenStore tokenStore;
 
     @Override
@@ -43,10 +49,10 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
         if(pathMatcher.match("/uaa/**",requestUrl)){
           return chain.filter(exchange);
         }
+
         //2.检查token是否存在
-        //第一次进来的时候没有token，第二次访问的时候从uaa微服务中获取到了token
         String token = getToken(exchange);
-        if(token == null){
+        if(StringUtils.isEmpty(token)){
            return noTokenMono(exchange);
         }
         //3.判断是不是有效的token
@@ -55,16 +61,16 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
             oAuth2AccessToken = tokenStore.readAccessToken(token);
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
             //取出用户身份信息
-            String principal  = String.valueOf(additionalInformation.get("user_name"));
+            String principal  = String.valueOf(additionalInformation.get(USER_NAME));
             //获取用户的权限
-            Object authorities = additionalInformation.get("authorities");
+            Object authorities = additionalInformation.get(AUTHORITIES);
 
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put("principal",principal);
-            jsonObject.put("authorities",authorities);
+            jsonObject.put(PRINCIPAL,principal);
+            jsonObject.put(AUTHORITIES,authorities);
             //给header里面添加值
             //String encode = new BCryptPasswordEncoder().encode(jsonObject.toJSONString());  //加密
-            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header("json-token", jsonObject.toJSONString()).build();
+            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(ACCESS_TOKEN, jsonObject.toJSONString()).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
             return chain.filter(build);
         }catch (InvalidTokenException e){
@@ -76,22 +82,18 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return 0;
+        return FilterOrderConst.TOKEN_FILTER;
     }
 
     /**
      * 获取token
      */
     private String getToken(ServerWebExchange exchange){
-        List<String> list = exchange.getRequest().getHeaders().get("Authorization");
-        if(list==null){
+        List<String> authorizations = exchange.getRequest().getHeaders().get(AUTHORIZATION);
+        if(CollectionUtils.isEmpty(authorizations)){
             return null;
         }
-        String tokenStr = list.get(0);
-        if (StringUtils.isEmpty(tokenStr)){
-            return null;
-        }
-        return tokenStr.split(" ")[1];
+        return authorizations.get(0).replace(PRE_AUTHORIZATION,"");
     }
 
     /**

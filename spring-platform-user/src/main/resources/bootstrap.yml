@@ -13,6 +13,6 @@ spring:
   #        file-extension: yml
   #        timeout: 10000
   profiles:
-    active: mysql,oauth,redis,admin
+    active: mysql,oauth,redis,admin,sentinel
 server:
   port: 5202

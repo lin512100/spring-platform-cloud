@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
  */
 @Configuration
 public class TokenConfig {
-    //密钥
+    /** 密钥 */
     private static final String SIGNING_KEY = "oauth";
     /**
      * 默认是InMemoryTokenStore

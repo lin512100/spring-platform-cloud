@@ -7,7 +7,7 @@ spring:
     ## 连接池配置
     druid:
       type: com.alibaba.druid.pool.DruidDataSource
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: com.mysql.jdbc.Driver
       # 连接池的配置信息
       # 初始化大小，最小，最大
       initial-size: 5

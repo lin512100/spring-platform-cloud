@@ -1,6 +1,10 @@
 spring:
   profiles:
     active: admin,gateway,mysql
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 42.192.99.152:8848
   application:
     name: PLATFORM-GATEWAY
 server:
