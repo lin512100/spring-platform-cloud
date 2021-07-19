@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: admin,gateway,mysql
+    active: admin,gateway,mysql,sentinel
   cloud:
     nacos:
       discovery:

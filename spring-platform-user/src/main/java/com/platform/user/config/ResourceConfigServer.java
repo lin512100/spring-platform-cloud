@@ -1,6 +1,5 @@
 package com.platform.user.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +24,7 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
     //密钥
     private static final String SIGNING_KEY = "oauth";
 
-    public static final String RESOURCE_ID = "res1";
+    public static final String RESOURCE_ID = "user";
 
     @Resource
     private TokenStore tokenStore;
@@ -72,7 +71,7 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/**", "/actuator/**").permitAll()
+            .antMatchers("/actuator/**").permitAll()
             .antMatchers("/**")
             .access("#oauth2.hasScope('ROLE_ADMIN')")
             .and().csrf().disable()

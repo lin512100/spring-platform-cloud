@@ -12,7 +12,7 @@
 # Build targets
 /target
 */target
-
+target/
 # Geany project file
 .geany
 

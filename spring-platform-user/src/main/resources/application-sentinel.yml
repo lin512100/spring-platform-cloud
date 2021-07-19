@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    sentinel:
+    filter:
+      #打开/关闭掉对Spring MVC端点的保护
+      enabled: true
+    transport:
+      port: 8719
+      #指定sentinel控制台的地址
+      dashboard: localhost:8080
