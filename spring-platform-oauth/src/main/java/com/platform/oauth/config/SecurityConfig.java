@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @date 7/18/2021
  */
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true,jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -28,20 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         //首页可以访问，其他都要认证
         http.authorizeRequests()
-                .antMatchers("/login*", "/actuator/**","/oauth/**").permitAll()
-                //.antMatchers("/order").hasRole("p1")
+                .antMatchers("/login*","/actuator/**","/oauth/authorize","/oauth/**").permitAll()
                 .anyRequest().authenticated();
-        //    登陆设置
+        http.httpBasic();
         http.formLogin();
-        //注销设置
-        // http.logout().logoutSuccessUrl("/login");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
     }
-
 
     /**
      * 获取新的权限信息
@@ -73,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 忽略拦截url或静态资源文件夹
      */
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers(HttpMethod.GET,
                 "/favicon.ico",
                 "/*.html",

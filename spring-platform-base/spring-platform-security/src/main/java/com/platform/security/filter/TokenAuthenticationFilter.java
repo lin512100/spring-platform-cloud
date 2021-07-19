@@ -49,6 +49,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             //将authenticationToken填充到安全上下文
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
     }
 }

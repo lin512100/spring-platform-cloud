@@ -25,6 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public SysUserVO loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new SysUserVO(username, passwordEncoder.encode(username), Collections.singleton(new SimpleGrantedAuthority("ADMIN")));
+        return new SysUserVO(username, passwordEncoder.encode(username), Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 }

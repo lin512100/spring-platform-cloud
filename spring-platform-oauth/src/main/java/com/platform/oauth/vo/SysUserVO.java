@@ -11,7 +11,6 @@ import java.util.Collection;
  */
 public class SysUserVO extends User {
 
-
     public SysUserVO(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }

@@ -93,7 +93,8 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
         if(CollectionUtils.isEmpty(authorizations)){
             return null;
         }
-        return authorizations.get(0).replace(PRE_AUTHORIZATION,"");
+        String token = authorizations.get(0);
+        return token.replace(PRE_AUTHORIZATION,"");
     }
 
     /**
