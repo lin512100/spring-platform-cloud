@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -26,7 +27,7 @@ import static com.platform.security.consts.SecurityConst.*;
  * @author lin512100
  * @date 2021/7/19
  */
-@Configuration
+@EnableAutoConfiguration
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override

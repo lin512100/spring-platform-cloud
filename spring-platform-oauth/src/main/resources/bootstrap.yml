@@ -9,6 +9,6 @@ spring:
         server-addr: 42.192.99.152:8848
 server:
   port: 5203
-logging:
-  level:
-    org.springframework: DEBUG
+#logging:
+#  level:
+#    org.springframework: DEBUG

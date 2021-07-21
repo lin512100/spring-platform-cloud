@@ -1,6 +1,6 @@
 package com.platform.web.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.platform.web.utils.MysqlDbUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
     @Override
     public List<T> queryByParams(T t) {
-        return list(MysqlDbUtils.queryByParams(t));
+        QueryWrapper<T> tQueryWrapper = MysqlDbUtils.queryByParams(t);
+        return list(tQueryWrapper);
     }
 }

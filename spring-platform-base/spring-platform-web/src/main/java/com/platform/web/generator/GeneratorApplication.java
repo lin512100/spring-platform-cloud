@@ -64,12 +64,12 @@ public class GeneratorApplication {
         // strategy.setInclude("permission_info", "role_info", "role_permission", "sys_dict", "user_info", "user_role");
         strategy.setInclude("oauth_client_details");
         // 自定义实体父类
-        strategy.setSuperEntityClass("com.platform.model.base.BaseEntity");
+        // strategy.setSuperEntityClass("com.platform.model.base.BaseEntity");
         strategy.setEntityColumnConstant(true);
         strategy.setEntityLombokModel(true);
 
         // 自定义实体，公共字段
-        strategy.setSuperEntityColumns("id", "creator", "create_time", "updater", "update_time", "valid");
+        // strategy.setSuperEntityColumns("id", "creator", "create_time", "updater", "update_time", "valid");
         // 自定义 mapper 父类
         strategy.setSuperMapperClass("com.platform.web.service.BaseMapper");
         // 自定义 service 父类

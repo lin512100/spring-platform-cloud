@@ -50,14 +50,14 @@ public class ${table.controllerName} {
 
     @PostMapping("/del")
     @ApiOperation(value = "$!{table.comment}删除")
-    public ResultData<Long> del(@RequestBody ${entity}Dto dto) {
+    public ResultData<Void> del(@RequestBody ${entity}Dto dto) {
         service.del(dto);
         return ResultData.success();
     }
 
     @PostMapping("/modify")
     @ApiOperation(value = "$!{table.comment}修改")
-    public ResultData<Long> modify(@RequestBody ${entity}Dto dto) {
+    public ResultData<Void> modify(@RequestBody ${entity}Dto dto) {
         service.modify(dto);
         return ResultData.success();
     }

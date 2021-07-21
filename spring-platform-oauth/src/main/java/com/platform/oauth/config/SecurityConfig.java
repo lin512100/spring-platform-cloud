@@ -1,6 +1,7 @@
 package com.platform.oauth.config;
 
 import com.platform.oauth.service.UserDetailsServiceImpl;
+import com.platform.security.filter.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.header.HeaderWriterFilter;
 
 /**
  * 安全配置类
@@ -29,10 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         //首页可以访问，其他都要认证
         http.authorizeRequests()
-                .antMatchers("/login*","/actuator/**","/oauth/authorize","/oauth/**").permitAll()
+                .antMatchers(
+                    "doc.html","/webjars/**","/swagger-resources/**","/v2/**",
+                    "/login*","/actuator/**","/oauth/authorize","/oauth/**").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic();
         http.formLogin();
+        http.addFilterAfter(new TokenAuthenticationFilter(), HeaderWriterFilter.class);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.platform.oauth;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,7 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author lin512100
  * @date 6/27/2021
  */
-@SpringBootApplication(scanBasePackages = "com.platform.**")
+@SpringBootApplication
+@MapperScan(basePackages = "com.platform.oauth.mapper")
 public class OauthApplication {
 
     public static void main(String[] args) {

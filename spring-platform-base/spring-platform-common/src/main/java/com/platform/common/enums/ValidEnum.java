@@ -1,6 +1,5 @@
 package com.platform.common.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,7 +23,6 @@ public enum ValidEnum implements BaseEnum {
     VALID(1, "有效");
 
 
-    @EnumValue
     private final Integer index;
 
     private final String desc;

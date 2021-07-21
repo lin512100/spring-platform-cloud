@@ -1,6 +1,5 @@
 package com.platform.common.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -33,7 +32,6 @@ public enum DictEnum implements BaseEnum {
     /**
      * 字典code
      */
-    @EnumValue
     private final String code;
 
     /**
