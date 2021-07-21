@@ -1,17 +1,24 @@
 package com.platform.openfeign.utils;
 
+import com.platform.common.consts.SecurityConst;
 import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.exception.SystemException;
+import com.platform.common.utils.BeanUtils;
+import com.platform.openfeign.properties.FeignProperties;
+import com.platform.openfeign.service.OauthApiService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.platform.common.consts.SecurityConst.PRE_AUTHORIZATION;
 
 /**
  * 获取token工具类
@@ -21,70 +28,45 @@ import java.util.Map;
 public class FeignUtils {
 
     /**
-     * 认证前缀
-     */
-    public final static String PRE_AUTH = "Bearer ";
-
-    /**
-     * 认证头
-     */
-    public final static String AUTHORIZATION = "Authorization";
-
-    /**
      * 获取用户自带的Token
      */
     public static String getUserToken() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            throw new SystemException(SystemErrorCode.DATA_ERROR_NONE, "获取用户Token异常");
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+            .getRequestAttributes();
+        if (null != attributes) {
+            HttpServletRequest request = attributes.getRequest();
+            Enumeration<String> headerNames = request.getHeaderNames();
+            if (headerNames != null) {
+                while (headerNames.hasMoreElements()) {
+                    String name = headerNames.nextElement();
+                    if(name.equals(SecurityConst.AUTHORIZATION.toLowerCase())){
+                        return request.getHeader(name);
+                    }
+                }
+            }
         }
-        AbstractAuthenticationToken token = (AbstractAuthenticationToken) authentication;
-        if (token.getDetails() == null) {
-            throw new SystemException(SystemErrorCode.DATA_ERROR_NONE, "获取用户Token异常");
-        }
-        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) token.getDetails();
-        return details.getTokenValue();
-    }
-
-    /**
-     * 格式化用户token
-     * @return 格式化Token
-     */
-    public static String userToken() {
-        return PRE_AUTH + getUserToken();
-    }
-
-    /**
-     * 格式化系统token参数
-     * @return 格式化Token
-     */
-    public static String sysToken(ResponseEntity<OAuth2AccessToken> accessToken) {
-        System.out.println("系统token:" +PRE_AUTH + getSysToken(accessToken));
-
-        return PRE_AUTH + getSysToken(accessToken);
+        throw new RuntimeException("获取用户Token失败");
     }
 
     /**
      * 获取系统Token
      */
-    public static String getSysToken(ResponseEntity<OAuth2AccessToken> accessToken) {
+    public static String getInnerToken(){
+        FeignProperties feignProperties = BeanUtils.getBean(FeignProperties.class);
+        if(StringUtils.isEmpty(feignProperties.getClientId()) ||  StringUtils.isEmpty(feignProperties.getClientSecret())){
+            throw new RuntimeException("客户端信息未配置");
+        }
+        Map<String, String> map = new HashMap<>(3);
+        map.put("client_id", feignProperties.getClientId());
+        map.put("client_secret", feignProperties.getClientSecret());
+        map.put("grant_type", "client_credentials");
+        ResponseEntity<OAuth2AccessToken> accessToken = BeanUtils.getBean(OauthApiService.class).getServiceToken(map);
         if (!accessToken.getStatusCode().equals(HttpStatus.OK)) {
             throw new SystemException(SystemErrorCode.DATA_ERROR_NONE, "获取系统调用Token异常");
         }
         if (accessToken.getBody() == null) {
             throw new SystemException(SystemErrorCode.DATA_ERROR_NONE, "获取系统调用Token异常");
         }
-        return accessToken.getBody().getValue();
-    }
-
-    /**
-     * 获取内部系统Token参数
-     */
-    public static Map<String, String> getTokenMap(String clientId, String clientSecret) {
-        Map<String, String> map = new HashMap<>();
-        map.put("client_id", clientId);
-        map.put("client_secret", clientSecret);
-        map.put("grant_type", "client_credentials");
-        return map;
+        return PRE_AUTHORIZATION +  accessToken.getBody().getValue();
     }
 }

@@ -1,4 +1,4 @@
-package com.platform.security.consts;
+package com.platform.common.consts;
 
 /**
  * @author lin512100

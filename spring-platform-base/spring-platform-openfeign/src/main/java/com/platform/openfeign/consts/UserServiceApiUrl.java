@@ -7,9 +7,6 @@ package com.platform.openfeign.consts;
  */
 public class UserServiceApiUrl {
 
-    public static final String PRE_SERVICE_URL_USER = "/user";
-
-
     /**
      * 获取用户信息
      */

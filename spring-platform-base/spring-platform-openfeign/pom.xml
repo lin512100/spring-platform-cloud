@@ -13,6 +13,11 @@
     <name>基础组件-服务调用</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <!--feign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

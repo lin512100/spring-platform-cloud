@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-import static com.platform.security.consts.SecurityConst.*;
+import static com.platform.common.consts.SecurityConst.*;
 
 /**
  * 自定义拦截器

@@ -7,9 +7,6 @@ package com.platform.openfeign.consts;
  */
 public class OauthServiceApiUrl {
 
-
-    public static final String PRE_SERVICE_URL_OAUTH = "";
-
     /**
      * 获取登录信息
      */

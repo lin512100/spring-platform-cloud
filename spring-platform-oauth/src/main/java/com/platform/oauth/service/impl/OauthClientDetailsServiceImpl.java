@@ -3,9 +3,14 @@ package com.platform.oauth.service.impl;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import com.platform.model.vo.OauthUserVo;
 import com.platform.oauth.entity.OauthClientDetails;
 import com.platform.oauth.mapper.OauthClientDetailsMapper;
 import com.platform.oauth.service.OauthClientDetailsService;
+import com.platform.openfeign.service.OauthApiService;
+import com.platform.openfeign.service.UserApiService;
+import com.platform.openfeign.utils.FeignUtils;
 import com.platform.web.service.BaseServiceImpl;
 import com.platform.web.utils.PageVo;
 import com.platform.oauth.pojo.dto.OauthClientDetailsDto;
@@ -13,6 +18,8 @@ import com.platform.oauth.pojo.vo.OauthClientDetailsVo;
 import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.utils.ValidateUtils;
 import com.platform.web.annotation.AutoDictFieldValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.page.PageMethod;
@@ -27,6 +34,9 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDetailsMapper, OauthClientDetails> implements OauthClientDetailsService {
+
+    @Autowired
+    private UserApiService userApiService;
 
     @Override
     public String add(OauthClientDetailsDto dto) {
@@ -57,6 +67,7 @@ public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDe
 
     @Override
     public PageVo<OauthClientDetailsVo> list(OauthClientDetailsDto dto) {
+        OauthUserVo oauthUserVo = userApiService.loadUserByUsername("lint", FeignUtils.getInnerToken());
         ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
         Page<OauthClientDetails> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(
         () -> this.queryByParams(toEntity(dto)));
@@ -75,6 +86,9 @@ public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDe
     public OauthClientDetails toEntity(OauthClientDetailsDto dto) {
         OauthClientDetails entity = new OauthClientDetails();
         BeanUtils.copyProperties(dto, entity);
+        if(!StringUtils.isEmpty(dto.getClientSecret())){
+            entity.setClientSecret(new BCryptPasswordEncoder().encode(entity.getClientSecret()));
+        }
         return entity;
     }
 

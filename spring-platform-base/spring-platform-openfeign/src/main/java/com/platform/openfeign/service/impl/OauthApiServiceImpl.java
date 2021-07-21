@@ -3,6 +3,7 @@ package com.platform.openfeign.service.impl;
 import com.platform.openfeign.service.OauthApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -15,7 +16,6 @@ public class OauthApiServiceImpl implements OauthApiService {
 
     @Override
     public ResponseEntity<OAuth2AccessToken> getServiceToken(Map<String,String> parameters) {
-        System.out.println("调用异常");
-        return null;
+        throw new RuntimeException("内部Token 获取异常");
     }
 }

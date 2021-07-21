@@ -17,14 +17,14 @@ import java.util.Map;
  * @author lin512100
  * @date 2021/6/29
  */
-@FeignClient(value = ServiceConst.PLATFORM_OAUTH,fallback = OauthApiServiceImpl.class)
+@FeignClient(value = ServiceConst.PLATFORM_OAUTH, fallback = OauthApiServiceImpl.class)
 public interface OauthApiService {
 
     /**
      * 授权模式获取Token
      * @param parameters 授权信息
      * @return String
-     * */
-    @PostMapping(value = OauthServiceApiUrl.PRE_SERVICE_URL_OAUTH + OauthServiceApiUrl.GET_SYSTEM_OAUTH_TOKEN)
-    ResponseEntity<OAuth2AccessToken> getServiceToken(@RequestParam("parameters") Map<String,String> parameters);
+     */
+    @PostMapping(value = OauthServiceApiUrl.GET_SYSTEM_OAUTH_TOKEN)
+    ResponseEntity<OAuth2AccessToken> getServiceToken(@RequestParam Map<String, String> parameters);
 }
