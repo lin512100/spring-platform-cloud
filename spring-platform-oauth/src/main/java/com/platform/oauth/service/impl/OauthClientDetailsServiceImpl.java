@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import com.platform.model.vo.OauthUserVo;
+import com.platform.model.vo.basic.SysDictAllVo;
 import com.platform.oauth.entity.OauthClientDetails;
 import com.platform.oauth.mapper.OauthClientDetailsMapper;
 import com.platform.oauth.service.OauthClientDetailsService;
+import com.platform.openfeign.service.BasicApiService;
 import com.platform.openfeign.service.OauthApiService;
 import com.platform.openfeign.service.UserApiService;
 import com.platform.openfeign.utils.FeignUtils;
@@ -37,6 +39,8 @@ public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDe
 
     @Autowired
     private UserApiService userApiService;
+    @Autowired
+    private BasicApiService basicApiService;
 
     @Override
     public String add(OauthClientDetailsDto dto) {
@@ -68,6 +72,7 @@ public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDe
     @Override
     public PageVo<OauthClientDetailsVo> list(OauthClientDetailsDto dto) {
         OauthUserVo oauthUserVo = userApiService.loadUserByUsername("lint", FeignUtils.getInnerToken());
+        List<SysDictAllVo> sysDictAllVos = basicApiService.getAllDict(FeignUtils.getInnerToken());
         ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
         Page<OauthClientDetails> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(
         () -> this.queryByParams(toEntity(dto)));

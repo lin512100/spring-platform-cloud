@@ -13,6 +13,10 @@ spring:
   #        file-extension: yml
   #        timeout: 10000
   profiles:
-    active: mysql,oauth,redis,admin,sentinel
+    active: mysql,redis,admin,sentinel
 server:
   port: 5202
+customer:
+  feign:
+    client-id: Admin
+    client-secret: Admin

@@ -71,7 +71,9 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/actuator/**").permitAll()
+            .antMatchers(
+                "/doc.html","/webjars/**","/swagger-resources/**","/v2/**",
+                "/actuator/**","/oauth/authorize","/oauth/**").permitAll()
             .antMatchers("/**")
             .access("#oauth2.hasScope('ROLE_ADMIN')")
             .and().csrf().disable()

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity extends BaseValidEntity {
     /**
      * 主键
      */

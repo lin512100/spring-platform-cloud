@@ -26,7 +26,7 @@ public class GeneratorApplication {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("E:\\spring-platform-cloud\\spring-platform-oauth");
+        gc.setOutputDir("E:\\spring-platform-cloud\\spring-platform-user");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);
         // XML 二级缓存
@@ -62,14 +62,14 @@ public class GeneratorApplication {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         // 需要生成的表
         // strategy.setInclude("permission_info", "role_info", "role_permission", "sys_dict", "user_info", "user_role");
-        strategy.setInclude("oauth_client_details");
+        strategy.setInclude("sys_dict","sys_dict_item");
         // 自定义实体父类
-        // strategy.setSuperEntityClass("com.platform.model.base.BaseEntity");
+        strategy.setSuperEntityClass("com.platform.model.base.BaseEntity");
         strategy.setEntityColumnConstant(true);
         strategy.setEntityLombokModel(true);
 
         // 自定义实体，公共字段
-        // strategy.setSuperEntityColumns("id", "creator", "create_time", "updater", "update_time", "valid");
+        strategy.setSuperEntityColumns("id", "creator", "create_time", "updater", "update_time", "valid");
         // 自定义 mapper 父类
         strategy.setSuperMapperClass("com.platform.web.service.BaseMapper");
         // 自定义 service 父类
@@ -84,7 +84,7 @@ public class GeneratorApplication {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.platform.user");
+        pc.setParent("com.platform.basic");
         // 模块名称
         pc.setModuleName("");
         pc.setMapper("mapper");

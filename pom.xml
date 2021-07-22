@@ -15,6 +15,7 @@
         <module>spring-platform-user</module>
         <module>spring-platform-admin</module>
         <module>spring-platform-gateway</module>
+        <module>spring-platform-basic</module>
     </modules>
 
     <packaging>pom</packaging>

@@ -1,28 +1,31 @@
 package com.platform.user.controller;
 
 import com.platform.model.vo.OauthUserVo;
-import jdk.nashorn.internal.objects.annotations.Getter;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 
+import static com.platform.openfeign.consts.UserServiceApiUrl.LOAD_USER_BY_USERNAME;
+
 /**
- * 用户信息控制器
+ *
  * @author lin512100
- * @date 2021/6/29
+ * @date 2021/7/22
  */
 @RestController
-@RequestMapping("/")
-public class UserInfoController {
+@RequestMapping
+@Api(tags = "API接口-用户模块")
+public class SysUserApiController {
 
     /**
      * 获取用户信息
      * @param username 用户名
      * @return {@link OauthUserVo}
      */
-    @GetMapping("info/oauth")
+    @GetMapping(LOAD_USER_BY_USERNAME)
     public OauthUserVo loadUserByUsername(String username) {
         OauthUserVo oauthUserVo = new OauthUserVo();
         oauthUserVo.setUsername(username);
@@ -30,6 +33,4 @@ public class UserInfoController {
         oauthUserVo.setGrantedAuthorityList(Collections.singletonList("Admin"));
         return oauthUserVo;
     }
-
-
 }

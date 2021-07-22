@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.basic.mapper.SysDictItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.platform.model.entity.basic.SysDictItem">
+        <result column="id" property="id" />
+        <result column="valid" property="valid" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="updater" property="updater" />
+        <result column="update_time" property="updateTime" />
+        <result column="dict_id" property="dictId" />
+        <result column="item_text" property="itemText" />
+        <result column="item_value" property="itemValue" />
+        <result column="item_description" property="itemDescription" />
+        <result column="sort" property="sort" />
+    </resultMap>
+
+</mapper>

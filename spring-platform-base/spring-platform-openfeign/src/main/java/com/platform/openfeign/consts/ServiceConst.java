@@ -16,4 +16,9 @@ public class ServiceConst {
      * 用户服务
      */
     public static final String PLATFORM_USER = "PLATFORM-USER";
+
+    /**
+     * 底层服务
+     * */
+    public static final String PLATFORM_BASIC = "PLATFORM-BASIC";
 }
