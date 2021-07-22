@@ -5,7 +5,6 @@ import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.exception.SystemException;
 import com.platform.common.utils.ReflexUtils;
 import com.platform.model.base.BaseEntity;
-import com.platform.web.service.DictCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -64,7 +63,7 @@ public class AutoDictFieldValueAspect {
         List<Field> allFields = Arrays.stream(ReflexUtils.getAllFields(entity.getClass()))
             .filter(field -> !Modifier.isStatic(field.getModifiers())).collect(Collectors.toList());
         // 设置字典值
-        Map<String, Object> fieldsMap = new HashMap<>();
+        Map<String, Object> fieldsMap = new HashMap<>(8);
 
         allFields.forEach(field -> {
             Object fieldValue = ReflexUtils.getFieldValueByFieldName(field.getName(), entity);

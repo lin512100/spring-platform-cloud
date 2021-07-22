@@ -45,10 +45,7 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String requestUrl = exchange.getRequest().getPath().value();
         AntPathMatcher pathMatcher = new AntPathMatcher();
-        // 1.uaa的所有服务进行放行  pathMatcher.match("/uaa/**",requestUrl)路径是否匹配
-        if(pathMatcher.match("/uaa/**",requestUrl)){
-          return chain.filter(exchange);
-        }
+
 
         //2.检查token是否存在
         String token = getToken(exchange);

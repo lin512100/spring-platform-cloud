@@ -108,7 +108,7 @@ public class GeneratorApplication {
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
-                Map<String, Object> map = new HashMap<>();
+                Map<String, Object> map = new HashMap<>(10);
                 map.put("superDtoClass", pc.getParent() + StringPool.DOT + (StringUtils.isBlank(pc.getModuleName()) ? "" : (pc.getModuleName() + StringPool.DOT)) + dto);
                 map.put("superDtoQueryClass", query);
                 map.put("superVoClass", pc.getParent() + StringPool.DOT + (StringUtils.isBlank(pc.getModuleName()) ? "" : (pc.getModuleName() + StringPool.DOT)) + vo);

@@ -1,5 +1,6 @@
 package com.platform.common.utils;
 
+import com.platform.common.consts.StringConst;
 import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.exception.SystemException;
 
@@ -77,7 +78,7 @@ public class ReflexUtils {
                 field.setAccessible(true);
                 String type = field.getType().toString();
                 try {
-                    if (type.endsWith("String")) {
+                    if (type.endsWith(StringConst.STRING)) {
                         field.set(fieldName, ConvertUtils.convertString(value, ""));
                     }
                 } catch (IllegalAccessException e) {

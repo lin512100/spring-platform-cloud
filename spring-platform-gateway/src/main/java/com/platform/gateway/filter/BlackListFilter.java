@@ -1,7 +1,7 @@
 package com.platform.gateway.filter;
 
 import com.platform.gateway.consts.FilterOrderConst;
-import com.platform.gateway.utils.IPUtils;
+import com.platform.gateway.utils.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -26,7 +26,7 @@ public class BlackListFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         // 从request对象中获取客户端ip
-        String clientIp = IPUtils.getIpAddress(request);
+        String clientIp = IpUtils.getIpAddress(request);
         log.info("IP 拦截：" + clientIp);
 
 

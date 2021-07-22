@@ -1,8 +1,15 @@
 package com.platform.web.utils;
 
+import com.platform.common.consts.StringConst;
+
 import javax.servlet.http.HttpServletRequest;
 
-public class IPUtils {
+/**
+ * IP地址获取
+ * @author lin512100
+ * @date 2021/7/22
+ */
+public class IpUtils {
 
     private final static String UN_KNOWN = "unknown";
 
@@ -15,8 +22,8 @@ public class IPUtils {
         String ip = request.getHeader("x-forwarded-for");
         if (ip != null && ip.length() != 0 && !UN_KNOWN.equalsIgnoreCase(ip)) {
             // 多次反向代理后会有多个ip值，第一个ip才是真实ip
-            if (ip.contains(",")) {
-                ip = ip.split(",")[0];
+            if (ip.contains(StringConst.SEQ)) {
+                ip = ip.split(StringConst.SEQ)[0];
             }
         }
         if (ip == null || ip.length() == 0 || UN_KNOWN.equalsIgnoreCase(ip)) {

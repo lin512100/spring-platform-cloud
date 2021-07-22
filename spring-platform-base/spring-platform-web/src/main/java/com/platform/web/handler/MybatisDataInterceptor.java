@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.platform.common.enums.DictEnum;
 import com.platform.common.utils.ReflexUtils;
 import com.platform.web.annotation.DictValidation;
-import com.platform.web.service.DictCacheService;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

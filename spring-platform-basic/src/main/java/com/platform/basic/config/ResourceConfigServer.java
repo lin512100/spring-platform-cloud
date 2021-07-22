@@ -21,26 +21,15 @@ import javax.annotation.Resource;
 @Configuration
 @EnableResourceServer
 public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
-    //密钥
+    /**
+     * 密钥
+     */
     private static final String SIGNING_KEY = "oauth";
 
     public static final String RESOURCE_ID = "basic";
 
     @Resource
     private TokenStore tokenStore;
-
-
-    //资源服务令牌解析服务
-    // @Bean
-    // public ResourceServerTokenServices tokenService() {
-    //     //使用远程服务请求授权服务器校验token,必须指定校验token 的url、client_id，client_secret
-    //     //使用 DefaultTokenServices 在资源服务器本地配置令牌存储、解码、解析方式 使用RemoteTokenServices 资源服务器通过 HTTP 请求来解码令牌，每次都请求授权服务器端点 /oauth/check_token
-    //     RemoteTokenServices service=new RemoteTokenServices();
-    //     service.setCheckTokenEndpointUrl("http://localhost:8002/oauth/check_token");
-    //     service.setClientId("c1");
-    //     service.setClientSecret("secret");
-    //     return service;
-    // }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -72,8 +61,8 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers(
-                "/doc.html","/webjars/**","/swagger-resources/**","/v2/**",
-                "/actuator/**","/oauth/authorize","/oauth/**").permitAll()
+                "/doc.html", "/webjars/**", "/swagger-resources/**", "/v2/**",
+                "/actuator/**", "/oauth/authorize", "/oauth/**").permitAll()
             .antMatchers("/**")
             .access("#oauth2.hasScope('ROLE_ADMIN')")
             .and().csrf().disable()
