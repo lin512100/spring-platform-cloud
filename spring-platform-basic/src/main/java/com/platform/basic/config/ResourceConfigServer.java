@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.annotation.Resource;
 
+import static com.platform.common.consts.SecurityConst.SIGNING_KEY;
+
 /**
  * 资源服务配置
  * @author lin512100
@@ -21,10 +23,6 @@ import javax.annotation.Resource;
 @Configuration
 @EnableResourceServer
 public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
-    /**
-     * 密钥
-     */
-    private static final String SIGNING_KEY = "oauth";
 
     public static final String RESOURCE_ID = "basic";
 

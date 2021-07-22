@@ -25,6 +25,8 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Collections;
 
+import static com.platform.common.consts.SecurityConst.SIGNING_KEY;
+
 /**
  * 授权服务配置
  * @author lin512100
@@ -33,8 +35,6 @@ import java.util.Collections;
 @Configuration
 @EnableAuthorizationServer
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
-    /** 密钥 */
-    private static final String SIGNING_KEY = "oauth";
 
     @Resource
     private AuthenticationManager authenticationManager;
