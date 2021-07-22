@@ -19,6 +19,7 @@
         <module>spring-platform-model</module>
         <module>spring-platform-openfeign</module>
         <module>spring-platform-security</module>
+        <module>spring-platform-cache</module>
     </modules>
 
 

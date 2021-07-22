@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-platform-openfeign</artifactId>
-    <name>基础组件-服务调用</name>
+    <name>基础组件-服务调用-OpenFeign</name>
 
     <dependencies>
         <dependency>

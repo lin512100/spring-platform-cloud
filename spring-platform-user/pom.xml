@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-platform-user</artifactId>
-    <name>应用服务-账户服务</name>
+    <name>应用服务-账户服务-User</name>
 
     <dependencies>
 
@@ -22,16 +22,14 @@
 
         <dependency>
             <groupId>com.platform</groupId>
-            <artifactId>spring-platform-openfeign</artifactId>
+            <artifactId>spring-platform-cache</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-
 
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>com.platform</groupId>

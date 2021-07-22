@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import com.platform.cache.dict.DictCache;
 import com.platform.model.vo.OauthUserVo;
 import com.platform.model.vo.basic.SysDictAllVo;
 import com.platform.oauth.entity.OauthClientDetails;
@@ -37,11 +38,6 @@ import org.springframework.util.StringUtils;
 @Service
 public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDetailsMapper, OauthClientDetails> implements OauthClientDetailsService {
 
-    @Autowired
-    private UserApiService userApiService;
-    @Autowired
-    private BasicApiService basicApiService;
-
     @Override
     public String add(OauthClientDetailsDto dto) {
         OauthClientDetails entity = toEntity(dto);
@@ -71,8 +67,8 @@ public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDe
 
     @Override
     public PageVo<OauthClientDetailsVo> list(OauthClientDetailsDto dto) {
-        OauthUserVo oauthUserVo = userApiService.loadUserByUsername("lint", FeignUtils.getInnerToken());
-        List<SysDictAllVo> sysDictAllVos = basicApiService.getAllDict(FeignUtils.getInnerToken());
+        SysDictAllVo sex = com.platform.common.utils.BeanUtils.getBean(DictCache.class).findDictByCode("sex");
+        System.out.println(sex.toString());
         ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
         Page<OauthClientDetails> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(
         () -> this.queryByParams(toEntity(dto)));
