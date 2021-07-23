@@ -3,7 +3,7 @@ package com.platform.openfeign.utils;
 import com.platform.common.consts.SecurityConst;
 import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.exception.SystemException;
-import com.platform.common.utils.BeanUtils;
+import com.platform.common.utils.SpringBeanUtils;
 import com.platform.openfeign.properties.FeignProperties;
 import com.platform.openfeign.service.OauthApiService;
 import org.springframework.http.HttpStatus;
@@ -52,7 +52,7 @@ public class FeignUtils {
      * 获取系统Token
      */
     public static String getInnerToken(){
-        FeignProperties feignProperties = BeanUtils.getBean(FeignProperties.class);
+        FeignProperties feignProperties = SpringBeanUtils.getBean(FeignProperties.class);
         if(StringUtils.isEmpty(feignProperties.getClientId()) ||  StringUtils.isEmpty(feignProperties.getClientSecret())){
             throw new RuntimeException("客户端信息未配置");
         }
@@ -60,7 +60,7 @@ public class FeignUtils {
         map.put("client_id", feignProperties.getClientId());
         map.put("client_secret", feignProperties.getClientSecret());
         map.put("grant_type", "client_credentials");
-        ResponseEntity<OAuth2AccessToken> accessToken = BeanUtils.getBean(OauthApiService.class).getServiceToken(map);
+        ResponseEntity<OAuth2AccessToken> accessToken = SpringBeanUtils.getBean(OauthApiService.class).getServiceToken(map);
         if (!accessToken.getStatusCode().equals(HttpStatus.OK)) {
             throw new SystemException(SystemErrorCode.DATA_ERROR_NONE, "获取系统调用Token异常");
         }

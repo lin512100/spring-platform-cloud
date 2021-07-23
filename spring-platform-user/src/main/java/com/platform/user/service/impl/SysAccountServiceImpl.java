@@ -3,6 +3,8 @@ package com.platform.user.service.impl;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import com.platform.common.utils.SpringBeanUtils;
 import com.platform.model.entity.user.SysAccount;
 import com.platform.user.mapper.SysAccountMapper;
 import com.platform.user.service.SysAccountService;
@@ -12,7 +14,9 @@ import com.platform.model.dto.user.SysAccountDto;
 import com.platform.model.vo.user.SysAccountVo;
 import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.utils.ValidateUtils;
-import com.platform.web.annotation.AutoDictFieldValue;
+import com.platform.common.annotation.AutoDictFieldValue;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.page.PageMethod;
@@ -67,7 +71,7 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccountMapper, Sys
     if (CollectionUtils.isEmpty(dataList)) {
         return new ArrayList<>();
     }
-        return dataList.stream().map(this::toVo).collect(Collectors.toList());
+        return dataList.stream().map(item -> SpringBeanUtils.getBean(SysAccountService.class).toVo(item)).collect(Collectors.toList());
     }
 
     @Override

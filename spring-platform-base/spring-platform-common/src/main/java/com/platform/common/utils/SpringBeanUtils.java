@@ -7,7 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author lin512100
  * @date 2021/7/21
  */
-public class BeanUtils {
+public class SpringBeanUtils {
 
     /** 将管理上下文的applicationContext设置成静态变量，供全局调用 */
     public static ConfigurableApplicationContext applicationContext;

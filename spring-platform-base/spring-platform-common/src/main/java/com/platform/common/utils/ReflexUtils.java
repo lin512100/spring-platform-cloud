@@ -5,6 +5,7 @@ import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.exception.SystemException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,23 +69,18 @@ public class ReflexUtils {
     /**
      * 反射设置属性值
      */
-    public static Object copyProperties(Object object, Class<?> clazz, String fieldName, Object value) {
-        Field[] fs = clazz.getDeclaredFields();
-        Arrays.stream(fs).forEach(
-            field -> {
-                if (!field.getName().equals(fieldName)) {
-                    return;
-                }
-                field.setAccessible(true);
-                String type = field.getType().toString();
-                try {
-                    if (type.endsWith(StringConst.STRING)) {
-                        field.set(fieldName, ConvertUtils.convertString(value, ""));
-                    }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            });
+    public static Object copyProperties(Object object, String fieldName, Object value) {
+        try {
+            Field field = object.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            String type = field.getType().toString();
+            if (type.endsWith(StringConst.STRING)) {
+                field.set(object, String.valueOf(value));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return value;
     }
 

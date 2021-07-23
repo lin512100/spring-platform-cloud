@@ -30,6 +30,9 @@ public class SysAccountVo implements Serializable {
 
     @ApiModelProperty(value = "渠道类型")
     private Integer channel;
+
+    @ApiModelProperty(value = "渠道类型描述")
+    private String channelDesc;
 }
 
 

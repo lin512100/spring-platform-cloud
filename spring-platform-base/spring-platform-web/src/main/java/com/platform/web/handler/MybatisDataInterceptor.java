@@ -1,9 +1,12 @@
 package com.platform.web.handler;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.platform.common.enums.DictEnum;
+import com.platform.cache.dict.DictCache;
 import com.platform.common.utils.ReflexUtils;
-import com.platform.web.annotation.DictValidation;
+import com.platform.common.annotation.DictValidation;
+import com.platform.model.base.BaseEntity;
+import com.platform.model.vo.basic.SysDictAllVo;
+import com.platform.model.vo.basic.SysDictItemVo;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,21 +36,34 @@ public class MybatisDataInterceptor implements InnerInterceptor {
 
     @Lazy
     @Resource
-    private DictCacheService dictCacheService;
+    private DictCache dictCache;
 
     @Override
     @SuppressWarnings("unchecked")
     public void beforeUpdate(Executor executor, MappedStatement ms, Object parameter) {
-        MapperMethod.ParamMap<Object> mapEntity = (MapperMethod.ParamMap<Object>) parameter;
         Set<FieldRef> fields = new HashSet<>();
-        // 获取所有非静态字段
-        for (Map.Entry<String, Object> entry : mapEntity.entrySet()) {
-            Field[] allFields = ReflexUtils.getAllFields(entry.getValue().getClass());
+        // 属于该实体
+        if(parameter instanceof BaseEntity){
+            Field[] allFields = ReflexUtils.getAllFields(parameter.getClass());
             fields.addAll(Arrays.stream(allFields)
                 .filter(field -> !Modifier.isStatic(field.getModifiers()))
-                .map(field -> new FieldRef(field, entry.getValue()))
+                .map(field -> new FieldRef(field,parameter))
                 .collect(Collectors.toList()));
         }
+
+        // 属于方法参数
+        if(parameter instanceof MapperMethod.ParamMap){
+            MapperMethod.ParamMap<Object> mapEntity = (MapperMethod.ParamMap<Object>) parameter;
+            // 获取所有非静态字段
+            for (Map.Entry<String, Object> entry : mapEntity.entrySet()) {
+                Field[] allFields = ReflexUtils.getAllFields(entry.getValue().getClass());
+                fields.addAll(Arrays.stream(allFields)
+                    .filter(field -> !Modifier.isStatic(field.getModifiers()))
+                    .map(field -> new FieldRef(field, entry.getValue()))
+                    .collect(Collectors.toList()));
+            }
+        }
+
         // 校验字典值
         fields.forEach(this::dictValidation);
     }
@@ -64,17 +80,16 @@ public class MybatisDataInterceptor implements InnerInterceptor {
             return;
         }
         Object value = ReflexUtils.getFieldValueByFieldName(field.getName(), entity);
-
-        // 字典code
-        DictEnum dictEnum = field.getAnnotation(DictValidation.class).code();
-        // 忽略空枚举
-        if (dictEnum.equals(DictEnum.IGNORE_NONE)) {
+        if(value == null){
             return;
         }
-        // 校验枚举值是否存在
-        if (!dictCacheService.verifyDict(dictEnum.getCustomCode(), value)) {
-            throw new PersistenceException(String.format("%s参数不合法", dictEnum.getCustomDesc()));
-        }
+        // 字典code
+        String code = field.getAnnotation(DictValidation.class).code();
+
+        // 校验字典是否存在
+        dictCache.veryDictStatus(code, String.valueOf(value));
+
+
     }
 
     /**

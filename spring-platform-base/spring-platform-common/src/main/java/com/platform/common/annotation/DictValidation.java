@@ -1,6 +1,4 @@
-package com.platform.web.annotation;
-
-import com.platform.common.enums.DictEnum;
+package com.platform.common.annotation;
 
 import java.lang.annotation.*;
 
@@ -17,6 +15,6 @@ public @interface DictValidation {
     /**
      * 字典code
      */
-    DictEnum code() default DictEnum.IGNORE_NONE;
+    String code() default "";
 
 }

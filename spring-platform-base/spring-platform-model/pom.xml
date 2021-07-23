@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-platform-model</artifactId>
-    <name>基础组件-数据模型-Common</name>
+    <name>基础组件-数据模型-Model</name>
 
     <dependencies>
         <!-- swagger2 -->
@@ -38,6 +38,12 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.platform</groupId>
+            <artifactId>spring-platform-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

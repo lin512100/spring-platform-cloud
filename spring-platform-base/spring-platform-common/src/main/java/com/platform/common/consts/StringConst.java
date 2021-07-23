@@ -19,4 +19,5 @@ public class StringConst {
     public static final String COMMON_CHAR_ENCODING = "UTF-8";
     public static final String ZH_CN_CHAR_ENCODING = "ISO-8859-1";
     public static final String STRING = "String";
+    public static final String OBJECT = "Object";
 }

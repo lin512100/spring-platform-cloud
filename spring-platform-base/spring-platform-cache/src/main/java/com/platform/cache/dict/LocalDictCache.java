@@ -1,9 +1,8 @@
 package com.platform.cache.dict;
 
 import com.google.common.collect.Maps;
-import com.platform.common.utils.BeanUtils;
+import com.platform.common.utils.SpringBeanUtils;
 import com.platform.model.vo.basic.SysDictAllVo;
-import com.platform.model.vo.basic.SysDictItemVo;
 import com.platform.model.vo.basic.SysDictVo;
 import com.platform.openfeign.service.BasicApiService;
 import com.platform.openfeign.utils.FeignUtils;
@@ -38,10 +37,10 @@ public class LocalDictCache implements DictCache{
 
     private void loadData() {
         synchronized (this) {
-            if(BeanUtils.applicationContext == null){
+            if(SpringBeanUtils.applicationContext == null){
                 throw new RuntimeException("未能加载全局上下文（BeanUtils.applicationContext = SpringApplication.run(XXX.class);）");
             }
-            BasicApiService basicApiService = BeanUtils.getBean(BasicApiService.class);
+            BasicApiService basicApiService = SpringBeanUtils.getBean(BasicApiService.class);
             List<SysDictAllVo> allDict = basicApiService.getAllDict(FeignUtils.getInnerToken());
             if(CollectionUtils.isEmpty(allDict)){
                 log.info("LocalDictCache load dict is null!");

@@ -5,23 +5,18 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import com.platform.cache.dict.DictCache;
-import com.platform.model.vo.OauthUserVo;
+import com.platform.common.utils.SpringBeanUtils;
 import com.platform.model.vo.basic.SysDictAllVo;
 import com.platform.oauth.entity.OauthClientDetails;
 import com.platform.oauth.mapper.OauthClientDetailsMapper;
 import com.platform.oauth.service.OauthClientDetailsService;
-import com.platform.openfeign.service.BasicApiService;
-import com.platform.openfeign.service.OauthApiService;
-import com.platform.openfeign.service.UserApiService;
-import com.platform.openfeign.utils.FeignUtils;
 import com.platform.web.service.BaseServiceImpl;
 import com.platform.web.utils.PageVo;
 import com.platform.oauth.pojo.dto.OauthClientDetailsDto;
 import com.platform.oauth.pojo.vo.OauthClientDetailsVo;
 import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.utils.ValidateUtils;
-import com.platform.web.annotation.AutoDictFieldValue;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.platform.common.annotation.AutoDictFieldValue;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
@@ -67,7 +62,7 @@ public class OauthClientDetailsServiceImpl extends BaseServiceImpl<OauthClientDe
 
     @Override
     public PageVo<OauthClientDetailsVo> list(OauthClientDetailsDto dto) {
-        SysDictAllVo sex = com.platform.common.utils.BeanUtils.getBean(DictCache.class).findDictByCode("sex");
+        SysDictAllVo sex = SpringBeanUtils.getBean(DictCache.class).findDictByCode("sex");
         System.out.println(sex.toString());
         ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
         Page<OauthClientDetails> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(

@@ -12,7 +12,7 @@ import com.platform.model.dto.user.SysPermissionDto;
 import com.platform.model.vo.user.SysPermissionVo;
 import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.utils.ValidateUtils;
-import com.platform.web.annotation.AutoDictFieldValue;
+import com.platform.common.annotation.AutoDictFieldValue;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.page.PageMethod;

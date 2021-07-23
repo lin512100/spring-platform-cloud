@@ -2,6 +2,7 @@ package com.platform.user.controller;
 
 import javax.annotation.Resource;
 
+import com.platform.common.annotation.AutoDictFieldValue;
 import com.platform.model.vo.OauthUserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

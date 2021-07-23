@@ -1,6 +1,6 @@
 package com.platform.user;
 
-import com.platform.common.utils.BeanUtils;
+import com.platform.common.utils.SpringBeanUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +17,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class UserApplication {
 
     public static void main(String[] args) {
-        BeanUtils.applicationContext = SpringApplication.run(UserApplication.class);
+        SpringBeanUtils.applicationContext = SpringApplication.run(UserApplication.class);
     }
 }

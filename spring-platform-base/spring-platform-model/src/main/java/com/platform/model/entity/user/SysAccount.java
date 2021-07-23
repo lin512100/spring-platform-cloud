@@ -1,5 +1,6 @@
 package com.platform.model.entity.user;
 
+import com.platform.common.annotation.DictValidation;
 import com.platform.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ public class SysAccount extends BaseEntity {
     /**
      * 渠道类型
      */
+    @DictValidation(code = "acc_channel")
     private Integer channel;
 
 
