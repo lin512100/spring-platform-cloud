@@ -1,4 +1,4 @@
-package com.platform.basic.service;
+package com.platform.basic.dict.service;
 
 import java.util.List;
 import com.platform.model.entity.basic.SysDict;

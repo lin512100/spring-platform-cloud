@@ -26,7 +26,7 @@ public class GeneratorApplication {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("E:\\spring-platform-cloud\\spring-platform-user");
+        gc.setOutputDir("E:\\spring-platform-cloud\\spring-platform-basic");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);
         // XML 二级缓存
@@ -62,7 +62,7 @@ public class GeneratorApplication {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         // 需要生成的表
         // strategy.setInclude("permission_info", "role_info", "role_permission", "sys_dict", "user_info", "user_role");
-        strategy.setInclude("sys_dict","sys_dict_item");
+        strategy.setInclude("sys_file");
         // 自定义实体父类
         strategy.setSuperEntityClass("com.platform.model.base.BaseEntity");
         strategy.setEntityColumnConstant(true);

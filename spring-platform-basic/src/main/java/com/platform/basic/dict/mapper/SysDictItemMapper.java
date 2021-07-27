@@ -1,4 +1,4 @@
-package com.platform.basic.mapper;
+package com.platform.basic.dict.mapper;
 
 import com.platform.model.entity.basic.SysDictItem;
 import com.platform.web.service.BaseMapper;

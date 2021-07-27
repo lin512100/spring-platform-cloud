@@ -1,11 +1,11 @@
-package com.platform.basic.service.impl;
+package com.platform.basic.dict.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import com.platform.model.entity.basic.SysDictItem;
-import com.platform.basic.mapper.SysDictItemMapper;
-import com.platform.basic.service.SysDictItemService;
+import com.platform.basic.dict.mapper.SysDictItemMapper;
+import com.platform.basic.dict.service.SysDictItemService;
 import com.platform.web.service.BaseServiceImpl;
 import com.platform.web.utils.PageVo;
 import com.platform.model.dto.basic.SysDictItemDto;

@@ -12,6 +12,7 @@ import ${config.injectionConfig.map.superDtoClass}.${entity}Dto;
 import ${config.injectionConfig.map.superVoClass}.${entity}Vo;
 import ${config.injectionConfig.map.packageException}.SystemErrorCode;
 import ${config.injectionConfig.map.packageUtils}.ValidateUtils;
+import ${config.injectionConfig.map.packageUtils}.SpringBeanUtils;
 import ${config.injectionConfig.map.packageAnnotation}.AutoDictFieldValue;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
@@ -72,7 +73,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     if (CollectionUtils.isEmpty(dataList)) {
         return new ArrayList<>();
     }
-        return dataList.stream().map(this::toVo).collect(Collectors.toList());
+        return dataList.stream().map(SpringBeanUtils.getBean(${table.serviceName}.class)::toVo).collect(Collectors.toList());
     }
 
     @Override

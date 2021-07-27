@@ -1,6 +1,6 @@
-package com.platform.basic.controller;
+package com.platform.basic.dict.controller;
 
-import com.platform.basic.service.SysDictService;
+import com.platform.basic.dict.service.SysDictService;
 import com.platform.model.vo.basic.SysDictAllVo;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;

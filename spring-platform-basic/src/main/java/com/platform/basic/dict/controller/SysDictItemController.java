@@ -1,4 +1,4 @@
-package com.platform.basic.controller;
+package com.platform.basic.dict.controller;
 
 import javax.annotation.Resource;
 import io.swagger.annotations.Api;
@@ -8,7 +8,7 @@ import com.platform.common.response.ResultData;
 import com.platform.web.utils.PageVo;
 import com.platform.model.dto.basic.SysDictItemDto;
 import com.platform.model.vo.basic.SysDictItemVo;
-import com.platform.basic.service.SysDictItemService;
+import com.platform.basic.dict.service.SysDictItemService;
 
 /**
  * 字典项信息 前端控制器

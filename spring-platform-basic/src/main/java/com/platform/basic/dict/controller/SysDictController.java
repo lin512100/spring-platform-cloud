@@ -1,6 +1,6 @@
-package com.platform.basic.controller;
+package com.platform.basic.dict.controller;
 
-import com.platform.basic.service.SysDictService;
+import com.platform.basic.dict.service.SysDictService;
 import com.platform.common.response.ResultData;
 import com.platform.model.dto.basic.SysDictDto;
 import com.platform.model.vo.basic.SysDictVo;

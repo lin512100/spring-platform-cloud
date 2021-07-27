@@ -1,4 +1,4 @@
-package com.platform.basic.service.impl;
+package com.platform.basic.dict.service.impl;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.platform.basic.service.SysDictItemService;
+import com.platform.basic.dict.service.SysDictItemService;
 import com.platform.model.entity.basic.SysDict;
-import com.platform.basic.mapper.SysDictMapper;
-import com.platform.basic.service.SysDictService;
+import com.platform.basic.dict.mapper.SysDictMapper;
+import com.platform.basic.dict.service.SysDictService;
 import com.platform.model.vo.basic.SysDictAllVo;
 import com.platform.model.vo.basic.SysDictItemVo;
 import com.platform.web.service.BaseServiceImpl;

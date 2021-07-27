@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "customer.feign")
 public class FeignProperties {
 
-    /** 客户端Id*/
+    /** 客户端Id */
     private String clientId;
 
     /** 客户端秘钥 */
