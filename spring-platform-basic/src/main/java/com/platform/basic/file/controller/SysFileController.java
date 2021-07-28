@@ -32,70 +32,32 @@ import java.util.List;
 public class SysFileController {
 
     @Resource
-    private SysFileService service;
+    private SysFileService sysFileService;
 
-    /**
-     * 单文件上传
-     * @param dto 文件上传类
-     * @return
-     * @throws IOException
-     */
+    @ApiOperation(value = "文件信息上传")
     @PostMapping("/uploadFile")
-    public String uploadFile(@ModelAttribute FileUploadDto dto) throws IOException {
-return null;
-
-    }
-
-    /**
-     * 多文件上传
-     * @param request 文件列表
-     */
-    @PostMapping("/uploadFiles")
-    @ResponseBody
-    public String uploadFiles(HttpServletRequest request) {
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        String filePath = "E:/temptest/";
-        for (int i = 0; i < files.size(); i++) {
-            MultipartFile file = files.get(i);
-            if (file.isEmpty()) {
-                System.out.println("未找到附件。。。");
-                System.out.println("上传第" + (++i) + "个文件失败");
-                i--; // 需要判断下一个附件是否可以进行上传，把上一行+1的下标减回去
-                continue;
-            }
-            String fileName = file.getOriginalFilename();
-
-            File dest = new File(filePath + fileName);
-            try {
-                file.transferTo(dest);
-                log.info("第" + (i + 1) + "个文件上传成功");
-            } catch (IOException e) {
-                log.error(e.toString(), e);
-                return "上传第" + (++i) + "个文件失败";
-            }
-        }
-
-        return "上传成功";
+    public ResultData<List<SysFileVo>> uploadFile(@ModelAttribute FileUploadDto dto){
+        return ResultData.success(sysFileService.uploadFile(dto));
     }
 
     @PostMapping("/del")
     @ApiOperation(value = "文件信息删除")
     public ResultData<Void> del(@RequestBody SysFileDto dto) {
-        service.del(dto);
+        sysFileService.del(dto);
         return ResultData.success();
     }
 
     @PostMapping("/modify")
     @ApiOperation(value = "文件信息修改")
     public ResultData<Void> modify(@RequestBody SysFileDto dto) {
-        service.modify(dto);
+        sysFileService.modify(dto);
         return ResultData.success();
     }
 
     @PostMapping("/list")
     @ApiOperation(value = "文件信息列表")
     public ResultData<PageVo<SysFileVo>> list(@RequestBody SysFileDto dto) {
-        return ResultData.success(service.list(dto));
+        return ResultData.success(sysFileService.list(dto));
     }
 
 }

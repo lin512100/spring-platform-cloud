@@ -2,6 +2,7 @@ package com.platform.basic.file.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -9,8 +10,11 @@ import java.util.stream.Collectors;
 
 import com.platform.basic.file.mapper.SysFileMapper;
 import com.platform.basic.file.service.SysFileService;
+import com.platform.basic.property.FileProperty;
 import com.platform.common.annotation.AutoDictFieldValue;
 import com.platform.common.consts.StringConst;
+import com.platform.common.utils.CalculateMd5Utils;
+import com.platform.common.utils.FileUtils;
 import com.platform.model.dto.basic.FileUploadDto;
 import com.platform.model.dto.basic.SysFileDto;
 import com.platform.model.entity.basic.SysFile;
@@ -29,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+
 /**
  * 文件信息 服务实现类
  * @author lin512100
@@ -38,33 +44,41 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class SysFileServiceImpl extends BaseServiceImpl<SysFileMapper, SysFile> implements SysFileService {
 
+    @Resource
+    private FileProperty fileProperty;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long uploadFile(FileUploadDto dto) {
+    public List<SysFileVo> uploadFile(FileUploadDto dto) {
+        List<SysFileVo> fileVos = new ArrayList<>();
         for(MultipartFile file: dto.getFiles()){
-            SysFileDto sysFileDto = new SysFileDto();
+            SysFile sysFile = new SysFile();
             // 文件名
             String fileName = file.getOriginalFilename();
-            sysFileDto.setFileName(fileName);
+            sysFile.setFileName(fileName);
 
             // 文件后缀
             assert fileName != null;
             String fileSuffix = fileName.substring(fileName.lastIndexOf(StringConst.PERIOD));
-            sysFileDto.setFileSuffix(fileSuffix);
+            sysFile.setFileSuffix(fileSuffix);
             // 文件大小
 
             Long fileSize = file.getSize();
-            sysFileDto.setFileSize(fileSize);
+            sysFile.setFileSize(fileSize);
 
             // 文件MD5值
+            sysFile.setFileMd5(CalculateMd5Utils.getFileMd5(file));
 
+            String uuid = UUID.randomUUID().toString().replace("-","");
+            String filePath = FileUtils.tranferFile(file, fileProperty.getBasePath(), FileUtils.getDatePath(), uuid);
+            sysFile.setFileUrl(filePath);
 
+            // 数据保存
+            this.save(sysFile);
 
-            String uuid = UUID.randomUUID().toString();
-
-            // file.transferTo(dest);
+            fileVos.add(SpringBeanUtils.getBean(SysFileService.class).toVo(sysFile));
         }
-        return null;
+        return fileVos;
     }
 
     @Override

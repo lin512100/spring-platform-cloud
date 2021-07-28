@@ -38,7 +38,7 @@ public class SysFile extends BaseEntity {
     /**
      * 文件大小
      */
-    private Double fileSize;
+    private Long fileSize;
 
     /**
      * 文件Hash值

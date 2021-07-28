@@ -25,7 +25,7 @@ public interface SysFileService extends BaseService<SysFile> {
      * @param dto {@link SysFileDto}
      * @return 新增主键
      */
-    Long uploadFile(FileUploadDto dto);
+    List<SysFileVo> uploadFile(FileUploadDto dto);
 
     /**
      * 文件信息删除
