@@ -19,3 +19,9 @@ spring:
             - Path=/user/**
           filters:
             - StripPrefix=1
+        - id: basic
+          uri: http://localhost:5205
+          predicates:
+            - Path=/basic/**
+          filters:
+            - StripPrefix=1

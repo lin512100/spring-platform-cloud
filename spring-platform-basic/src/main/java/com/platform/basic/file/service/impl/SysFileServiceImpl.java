@@ -1,16 +1,16 @@
 package com.platform.basic.file.service.impl;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.platform.basic.file.mapper.SysFileMapper;
 import com.platform.basic.file.service.SysFileService;
-import com.platform.basic.property.FileProperty;
+import com.platform.basic.file.property.FileProperty;
 import com.platform.common.annotation.AutoDictFieldValue;
 import com.platform.common.consts.StringConst;
 import com.platform.common.utils.CalculateMd5Utils;
@@ -20,6 +20,7 @@ import com.platform.model.dto.basic.SysFileDto;
 import com.platform.model.entity.basic.SysFile;
 import com.platform.model.vo.basic.SysFileVo;
 import com.platform.web.service.BaseServiceImpl;
+import com.platform.web.utils.FileWebUtils;
 import com.platform.web.utils.PageVo;
 import com.platform.common.utils.SpringBeanUtils;
 import com.platform.common.exception.SystemErrorCode;
@@ -34,6 +35,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 文件信息 服务实现类
@@ -51,7 +53,7 @@ public class SysFileServiceImpl extends BaseServiceImpl<SysFileMapper, SysFile> 
     @Transactional(rollbackFor = Exception.class)
     public List<SysFileVo> uploadFile(FileUploadDto dto) {
         List<SysFileVo> fileVos = new ArrayList<>();
-        for(MultipartFile file: dto.getFiles()){
+        for (MultipartFile file : dto.getFiles()) {
             SysFile sysFile = new SysFile();
             // 文件名
             String fileName = file.getOriginalFilename();
@@ -61,7 +63,8 @@ public class SysFileServiceImpl extends BaseServiceImpl<SysFileMapper, SysFile> 
             assert fileName != null;
             String fileSuffix = fileName.substring(fileName.lastIndexOf(StringConst.PERIOD));
             sysFile.setFileSuffix(fileSuffix);
-            // 文件大小
+            // 新文件名
+            String uuid = UUID.randomUUID().toString().replace("-", "");
 
             Long fileSize = file.getSize();
             sysFile.setFileSize(fileSize);
@@ -69,8 +72,7 @@ public class SysFileServiceImpl extends BaseServiceImpl<SysFileMapper, SysFile> 
             // 文件MD5值
             sysFile.setFileMd5(CalculateMd5Utils.getFileMd5(file));
 
-            String uuid = UUID.randomUUID().toString().replace("-","");
-            String filePath = FileUtils.tranferFile(file, fileProperty.getBasePath(), FileUtils.getDatePath(), uuid);
+            String filePath = FileUtils.transferFile(file, fileProperty.getBasePath(), FileUtils.getDatePath(), uuid);
             sysFile.setFileUrl(filePath);
 
             // 数据保存
@@ -79,6 +81,17 @@ public class SysFileServiceImpl extends BaseServiceImpl<SysFileMapper, SysFile> 
             fileVos.add(SpringBeanUtils.getBean(SysFileService.class).toVo(sysFile));
         }
         return fileVos;
+    }
+
+    @Override
+    public void download(String fileUrl, HttpServletResponse res) throws IOException {
+        LambdaQueryWrapper<SysFile> query = new LambdaQueryWrapper<SysFile>();
+        query.eq(SysFile::getFileUrl, fileUrl);
+        SysFile sysFile = baseMapper.selectOne(query);
+        if (sysFile == null) {
+            throw new RuntimeException("文件不存在");
+        }
+        FileWebUtils.download(fileProperty.getBasePath() + sysFile.getFileUrl(), res);
     }
 
     @Override
@@ -104,15 +117,15 @@ public class SysFileServiceImpl extends BaseServiceImpl<SysFileMapper, SysFile> 
     public PageVo<SysFileVo> list(SysFileDto dto) {
         ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
         Page<SysFile> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(
-        () -> this.queryByParams(toEntity(dto)));
+            () -> this.queryByParams(toEntity(dto)));
         return new PageVo<>(page.getPageSize(), page.getPageNum(), page.getTotal(), assembleDataList(page.getResult()));
     }
 
     @Override
     public List<SysFileVo> assembleDataList(List<SysFile> dataList) {
-    if (CollectionUtils.isEmpty(dataList)) {
-        return new ArrayList<>();
-    }
+        if (CollectionUtils.isEmpty(dataList)) {
+            return new ArrayList<>();
+        }
         return dataList.stream().map(SpringBeanUtils.getBean(SysFileService.class)::toVo).collect(Collectors.toList());
     }
 
@@ -128,6 +141,7 @@ public class SysFileServiceImpl extends BaseServiceImpl<SysFileMapper, SysFile> 
     public SysFileVo toVo(SysFile entity) {
         SysFileVo vo = new SysFileVo();
         BeanUtils.copyProperties(entity, vo);
+        vo.setFileAbsUrl(fileProperty.getFileBaseUrl() + entity.getFileUrl());
         return vo;
     }
 

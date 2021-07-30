@@ -1,9 +1,12 @@
 package com.platform.common.utils;
 
 
+import com.platform.common.consts.StringConst;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,12 +40,13 @@ public class FileUtils {
      * @param fileNewName 文件名
      * @return 文件存储相对路径
      */
-    public static String tranferFile(MultipartFile file, String baseFilePath, String relativePath, String fileNewName) {
+    public static String transferFile(MultipartFile file, String baseFilePath, String relativePath, String fileNewName) {
         if (file.getOriginalFilename() == null) {
             throw new RuntimeException("获取原始文件名失败：" + file.getName());
         }
         // 获取文件新名称
-        String fileName = file.getOriginalFilename().replace(file.getName(), fileNewName);
+        String fileName = file.getOriginalFilename();
+        fileName = fileNewName + fileName.substring(fileName.lastIndexOf(StringConst.PERIOD));
 
         // 创建文件路径
         String filePath = baseFilePath + File.separator + relativePath;
@@ -82,20 +86,20 @@ public class FileUtils {
     }
 
     /**
-     * 获取文件存储地址
-     * @param file    文件
-     * @param newName 新文件名
-     * @return 存储地址
-     */
-    public static String getFilePath(MultipartFile file, String basePath, String newName) {
-        if (file.getOriginalFilename() == null) {
-            throw new RuntimeException("获取原始文件名失败：" + file.getName());
+     * 根据路径获取文件信息
+     * @param baseFilePath 基础路径
+     * @param relativeFilePath 相对路径信息
+     * @return file 文件信息
+     * */
+    public static File getFile(String baseFilePath,String relativeFilePath){
+        File file = new File(baseFilePath + File.separator + relativeFilePath);
+        if(!file.exists()){
+            throw new RuntimeException("文件不存在");
         }
-        // 获取文件新名称
-        String fileName = file.getOriginalFilename().replace(file.getName(), newName);
-
-        return getAbsolutePath(basePath, getDatePath(), fileName);
+        return file;
 
     }
+
+
 
 }

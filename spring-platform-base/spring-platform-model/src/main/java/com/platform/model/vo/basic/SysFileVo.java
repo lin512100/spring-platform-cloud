@@ -25,6 +25,9 @@ public class SysFileVo implements Serializable {
     @ApiModelProperty(value = "存放地址")
     private String fileUrl;
 
+    @ApiModelProperty(value = "绝对地址")
+    private String fileAbsUrl;
+
     @ApiModelProperty(value = "文件名")
     private String fileName;
 
@@ -32,7 +35,7 @@ public class SysFileVo implements Serializable {
     private String fileSuffix;
 
     @ApiModelProperty(value = "文件大小")
-    private Double fileSize;
+    private Long fileSize;
 
     @ApiModelProperty(value = "文件Hash值")
     private String fileMd5;

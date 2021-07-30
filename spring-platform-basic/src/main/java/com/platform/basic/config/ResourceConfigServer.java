@@ -60,7 +60,7 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers(
                 "/doc.html", "/webjars/**", "/swagger-resources/**", "/v2/**",
-                "/actuator/**", "/oauth/authorize", "/oauth/**").permitAll()
+                "/actuator/**", "/oauth/authorize", "/oauth/**","/uploads/**").permitAll()
             .antMatchers("/**")
             .access("#oauth2.hasScope('ROLE_ADMIN')")
             .and().csrf().disable()

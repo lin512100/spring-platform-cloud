@@ -13,6 +13,6 @@ spring:
   #        file-extension: yml
   #        timeout: 10000
   profiles:
-    active: mysql,redis
+    active: mysql,redis,file
 server:
   port: 5205

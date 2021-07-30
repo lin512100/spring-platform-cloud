@@ -1,5 +1,6 @@
 package com.platform.basic.file.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.platform.model.dto.basic.FileUploadDto;
@@ -8,6 +9,8 @@ import com.platform.model.entity.basic.SysFile;
 import com.platform.model.vo.basic.SysFileVo;
 import com.platform.web.service.BaseService;
 import com.platform.web.utils.PageVo;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -26,6 +29,13 @@ public interface SysFileService extends BaseService<SysFile> {
      * @return 新增主键
      */
     List<SysFileVo> uploadFile(FileUploadDto dto);
+
+    /**
+     * 文件下载
+     * @param fileUrl 文件URL
+     * @param res 响应地址
+     * */
+    void download(String fileUrl, HttpServletResponse res) throws IOException;
 
     /**
      * 文件信息删除

@@ -1,4 +1,4 @@
-package com.platform.basic.property;
+package com.platform.basic.file.property;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,4 +24,9 @@ public class FileProperty {
      * 文件存储基础路径
      * */
     private String basePath;
+
+    /**
+     * 文件访问地址
+     * */
+    private String fileBaseUrl;
 }

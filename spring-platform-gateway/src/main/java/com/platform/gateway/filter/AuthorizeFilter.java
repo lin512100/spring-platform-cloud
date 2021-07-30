@@ -68,6 +68,7 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
             //给header里面添加值
             //String encode = new BCryptPasswordEncoder().encode(jsonObject.toJSONString());  //加密
             ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(ACCESS_TOKEN, jsonObject.toJSONString()).build();
+            System.out.println(jsonObject.toJSONString());
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
             return chain.filter(build);
         }catch (InvalidTokenException e){

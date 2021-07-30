@@ -1,9 +1,7 @@
 package com.platform.basic.file.controller;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import com.platform.basic.file.service.SysFileService;
+import com.platform.common.response.ResultData;
 import com.platform.model.dto.basic.FileUploadDto;
 import com.platform.model.dto.basic.SysFileDto;
 import com.platform.model.vo.basic.SysFileVo;
@@ -11,12 +9,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import com.platform.common.response.ResultData;
-import com.platform.web.utils.PageVo;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,8 +31,14 @@ public class SysFileController {
 
     @ApiOperation(value = "文件信息上传")
     @PostMapping("/uploadFile")
-    public ResultData<List<SysFileVo>> uploadFile(@ModelAttribute FileUploadDto dto){
+    public ResultData<List<SysFileVo>> uploadFile(@ModelAttribute FileUploadDto dto) {
         return ResultData.success(sysFileService.uploadFile(dto));
+    }
+
+    @ApiOperation(value = "文件信息上传")
+    @GetMapping("/download")
+    public void download(@RequestParam("fileUrl") String fileUrl, HttpServletResponse res) throws IOException {
+        sysFileService.download(fileUrl, res);
     }
 
     @PostMapping("/del")
@@ -45,19 +46,6 @@ public class SysFileController {
     public ResultData<Void> del(@RequestBody SysFileDto dto) {
         sysFileService.del(dto);
         return ResultData.success();
-    }
-
-    @PostMapping("/modify")
-    @ApiOperation(value = "文件信息修改")
-    public ResultData<Void> modify(@RequestBody SysFileDto dto) {
-        sysFileService.modify(dto);
-        return ResultData.success();
-    }
-
-    @PostMapping("/list")
-    @ApiOperation(value = "文件信息列表")
-    public ResultData<PageVo<SysFileVo>> list(@RequestBody SysFileDto dto) {
-        return ResultData.success(sysFileService.list(dto));
     }
 
 }
