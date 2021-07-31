@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @Api(tags = "字典项信息 前端控制器")
-@RequestMapping("/sysDictItem")
+@RequestMapping("/dictItem")
 public class SysDictItemController {
 
     @Resource
