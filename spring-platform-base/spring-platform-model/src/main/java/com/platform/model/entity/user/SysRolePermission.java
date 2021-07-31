@@ -18,12 +18,12 @@ public class SysRolePermission extends BaseEntity {
     /**
      * 角色ID
      */
-    private Integer roleId;
+    private Long roleId;
 
     /**
      * 权限ID
      */
-    private Integer permissionId;
+    private Long permissionId;
 
 
     public static final String ROLE_ID = "role_id";

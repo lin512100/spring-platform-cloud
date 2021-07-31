@@ -1,19 +1,18 @@
 package com.platform.user.controller;
 
-import javax.annotation.Resource;
-
-import com.platform.common.annotation.AutoDictFieldValue;
-import com.platform.model.vo.OauthUserVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
 import com.platform.common.response.ResultData;
-import com.platform.web.utils.PageVo;
 import com.platform.model.dto.user.SysUserDto;
 import com.platform.model.vo.user.SysUserVo;
 import com.platform.user.service.SysUserService;
+import com.platform.web.utils.PageVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
+import javax.annotation.Resource;
 
 /**
  * 用户信息 前端控制器

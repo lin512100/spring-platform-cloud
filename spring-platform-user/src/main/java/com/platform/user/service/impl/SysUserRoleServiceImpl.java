@@ -85,4 +85,9 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         return vo;
     }
 
+    @Override
+    public List<SysUserRole> getAll(SysUserRoleDto dto) {
+        return this.queryByParams(toEntity(dto));
+    }
+
 }

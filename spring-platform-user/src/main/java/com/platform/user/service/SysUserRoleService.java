@@ -64,5 +64,11 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
      * @return VO
      */
     SysUserRoleVo toVo(SysUserRole entity);
-    
+
+    /**
+     * 获取满足条件所有信息
+     * @param dto 查询条件
+     * @return SysUserRole
+     * */
+    List<SysUserRole> getAll(SysUserRoleDto dto);
 }

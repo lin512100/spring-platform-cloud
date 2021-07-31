@@ -2,6 +2,7 @@ package com.platform.user.service;
 
 import java.util.List;
 import com.platform.model.entity.user.SysUser;
+import com.platform.model.vo.OauthUserVo;
 import com.platform.web.service.BaseService;
 import com.platform.web.utils.PageVo;
 import com.platform.model.dto.user.SysUserDto;
@@ -64,5 +65,4 @@ public interface SysUserService extends BaseService<SysUser> {
      * @return VO
      */
     SysUserVo toVo(SysUser entity);
-    
 }

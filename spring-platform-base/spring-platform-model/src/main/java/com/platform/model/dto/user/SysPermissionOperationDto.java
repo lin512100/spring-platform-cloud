@@ -9,21 +9,21 @@ import com.platform.model.base.BaseQuery;
 /**
  * 用户角色中间表 通用DTO实体类
  * @author lin512100
- * @since 2021-07-22
+ * @since 2021-07-31
  */
 @Data
 @ApiModel("用户角色中间表通用实体DTO类")
 @EqualsAndHashCode(callSuper = true)
-public class SysUserRoleDto extends BaseQuery {
+public class SysPermissionOperationDto extends BaseQuery {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
     private Long id;
 
-    @ApiModelProperty(value = "用户ID")
-    private Long userId;
+    @ApiModelProperty(value = "权限ID")
+    private Long permissionId;
 
-    @ApiModelProperty(value = "角色ID")
-    private Long roleId;
+    @ApiModelProperty(value = "操作ID")
+    private Long operationId;
     }

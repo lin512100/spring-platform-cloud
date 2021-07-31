@@ -8,22 +8,22 @@ import com.platform.model.base.BaseQuery;
 
 /**
  * @author lin512100
- * @since 2021-07-22
+ * @since 2021-07-31
  */
 @Data
-@ApiModel("角色权限中间表通用实体VO类")
-public class SysRolePermissionVo implements Serializable {
+@ApiModel("用户角色中间表通用实体VO类")
+public class SysOperationVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
     private Long id;
 
-    @ApiModelProperty(value = "角色ID")
-    private Long roleId;
+    @ApiModelProperty(value = "操作名称")
+    private String operationName;
 
-    @ApiModelProperty(value = "权限ID")
-    private Long permissionId;
+    @ApiModelProperty(value = "操作功能")
+    private String operationFunc;
 }
 
 

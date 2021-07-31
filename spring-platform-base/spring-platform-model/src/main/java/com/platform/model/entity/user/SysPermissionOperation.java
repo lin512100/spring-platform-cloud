@@ -7,27 +7,27 @@ import lombok.EqualsAndHashCode;
 /**
  * 用户角色中间表
  * @author lin512100
- * @since 2021-07-22
+ * @since 2021-07-31
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysUserRole extends BaseEntity {
+public class SysPermissionOperation extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID
+     * 权限ID
      */
-    private Long userId;
+    private Long permissionId;
 
     /**
-     * 角色ID
+     * 操作ID
      */
-    private Long roleId;
+    private Long operationId;
 
 
-    public static final String USER_ID = "user_id";
+    public static final String PERMISSION_ID = "permission_id";
 
-    public static final String ROLE_ID = "role_id";
+    public static final String OPERATION_ID = "operation_id";
 
 }
