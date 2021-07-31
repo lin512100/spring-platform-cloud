@@ -1,11 +1,15 @@
 package com.platform.user.controller;
 
 import com.platform.model.vo.OauthUserVo;
+import com.platform.user.service.SysAccountService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 
 import static com.platform.openfeign.consts.UserServiceApiUrl.LOAD_USER_BY_USERNAME;
@@ -18,19 +22,14 @@ import static com.platform.openfeign.consts.UserServiceApiUrl.LOAD_USER_BY_USERN
 @RestController
 @RequestMapping
 @Api(tags = "API接口-用户模块")
-public class SysUserApiController {
+public class UserApiController {
 
-    /**
-     * 获取用户信息
-     * @param username 用户名
-     * @return {@link OauthUserVo}
-     */
+    @Resource
+    private SysAccountService accountService;
+
+    @ApiOperation(value = "获取用户信息")
     @GetMapping(LOAD_USER_BY_USERNAME)
     public OauthUserVo loadUserByUsername(String username) {
-        OauthUserVo oauthUserVo = new OauthUserVo();
-        oauthUserVo.setUsername(username);
-        oauthUserVo.setPassword("$2a$10$m7bX9siCoqz6LrcMa4pLVe0yI6St6..kOBWHHN23wuPmqx8jurKy2");
-        oauthUserVo.setGrantedAuthorityList(Collections.singletonList("Admin"));
-        return oauthUserVo;
+        return accountService.getOauthUserVo(username);
     }
 }

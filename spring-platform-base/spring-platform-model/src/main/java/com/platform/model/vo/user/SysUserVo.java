@@ -2,6 +2,8 @@ package com.platform.model.vo.user;
 
 import lombok.Data;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.platform.model.base.BaseQuery;
@@ -28,8 +30,18 @@ public class SysUserVo implements Serializable {
     @ApiModelProperty(value = "证件类型")
     private Integer credentialType;
 
-    @ApiModelProperty(value = "邮箱")
-    private String email;
+    @ApiModelProperty(value = "证件类型描述")
+    private Integer credentialTypeDesc;
+
+    @ApiModelProperty(value = "证件过期时间")
+    private LocalDateTime credentialExpires;
+
+    @ApiModelProperty(value = "用户状态")
+    private Integer userStatus;
+
+    @ApiModelProperty(value = "用户状态描述")
+    private String userStatusDesc;
+
 }
 
 

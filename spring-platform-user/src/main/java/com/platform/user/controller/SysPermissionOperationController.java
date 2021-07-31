@@ -12,40 +12,40 @@ import com.platform.common.response.ResultData;
 import com.platform.web.utils.PageVo;
 
 /**
- * 用户角色中间表 前端控制器
+ * 权限操作中间表 前端控制器
  * @author lin512100
  * @since 2021-07-31
  */
 @RestController
-@Api(tags = "用户角色中间表 前端控制器")
-@RequestMapping("/sysPermissionOperation")
+@Api(tags = "权限操作中间表 前端控制器")
+@RequestMapping("/permission_operation")
 public class SysPermissionOperationController {
 
     @Resource
     private SysPermissionOperationService service;
 
     @PostMapping("/add")
-    @ApiOperation(value = "用户角色中间表新增")
+    @ApiOperation(value = "权限操作中间表新增")
     public ResultData<Long> add(@RequestBody SysPermissionOperationDto dto) {
         return ResultData.success(service.add(dto));
     }
 
     @PostMapping("/del")
-    @ApiOperation(value = "用户角色中间表删除")
+    @ApiOperation(value = "权限操作中间表删除")
     public ResultData<Void> del(@RequestBody SysPermissionOperationDto dto) {
         service.del(dto);
         return ResultData.success();
     }
 
     @PostMapping("/modify")
-    @ApiOperation(value = "用户角色中间表修改")
+    @ApiOperation(value = "权限操作中间表修改")
     public ResultData<Void> modify(@RequestBody SysPermissionOperationDto dto) {
         service.modify(dto);
         return ResultData.success();
     }
 
     @PostMapping("/list")
-    @ApiOperation(value = "用户角色中间表列表")
+    @ApiOperation(value = "权限操作中间表列表")
     public ResultData<PageVo<SysPermissionOperationVo>> list(@RequestBody SysPermissionOperationDto dto) {
         return ResultData.success(service.list(dto));
     }

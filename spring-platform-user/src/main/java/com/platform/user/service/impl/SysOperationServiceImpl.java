@@ -22,7 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 /**
- * 用户角色中间表 服务实现类
+ * 操作权限信息 服务实现类
  * @author lin512100
  * @since 2021-07-31
  */
@@ -41,7 +41,7 @@ public class SysOperationServiceImpl extends BaseServiceImpl<SysOperationMapper,
     public void del(SysOperationDto dto) {
         ValidateUtils.noEmpty(dto.getId(), SysOperation.ID);
         SysOperation one = baseMapper.selectById(dto.getId());
-        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "用户角色中间表");
+        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "操作权限信息");
         this.baseMapper.deleteById(one.getId());
     }
 
@@ -51,7 +51,7 @@ public class SysOperationServiceImpl extends BaseServiceImpl<SysOperationMapper,
         SysOperation entity = toEntity(dto);
         // 判断信息是否存在
         SysOperation one = this.getBaseMapper().selectById(dto.getId());
-        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "用户角色中间表");
+        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "操作权限信息");
         BeanUtils.copyProperties(entity, one);
         this.getBaseMapper().updateById(one);
     }

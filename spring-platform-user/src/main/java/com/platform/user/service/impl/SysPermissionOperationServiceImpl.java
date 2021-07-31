@@ -23,7 +23,7 @@ import org.springframework.util.CollectionUtils;
 
 
 /**
- * 用户角色中间表 服务实现类
+ * 权限操作中间表 服务实现类
  * @author lin512100
  * @since 2021-07-31
  */
@@ -42,7 +42,7 @@ public class SysPermissionOperationServiceImpl extends BaseServiceImpl<SysPermis
     public void del(SysPermissionOperationDto dto) {
         ValidateUtils.noEmpty(dto.getId(), SysPermissionOperation.ID);
         SysPermissionOperation one = baseMapper.selectById(dto.getId());
-        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "用户角色中间表");
+        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "权限操作中间表");
         this.baseMapper.deleteById(one.getId());
     }
 
@@ -52,7 +52,7 @@ public class SysPermissionOperationServiceImpl extends BaseServiceImpl<SysPermis
         SysPermissionOperation entity = toEntity(dto);
         // 判断信息是否存在
         SysPermissionOperation one = this.getBaseMapper().selectById(dto.getId());
-        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "用户角色中间表");
+        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "权限操作中间表");
         BeanUtils.copyProperties(entity, one);
         this.getBaseMapper().updateById(one);
     }

@@ -1,32 +1,30 @@
 package com.platform.user.service.impl;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.page.PageMethod;
+import com.platform.common.annotation.AutoDictFieldValue;
+import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.utils.SpringBeanUtils;
+import com.platform.common.utils.ValidateUtils;
+import com.platform.model.dto.user.AccountAssociateDto;
+import com.platform.model.dto.user.SysAccountDto;
 import com.platform.model.dto.user.SysUserRoleDto;
 import com.platform.model.entity.user.*;
 import com.platform.model.vo.OauthUserVo;
+import com.platform.model.vo.user.SysAccountVo;
 import com.platform.user.mapper.SysAccountMapper;
 import com.platform.user.service.*;
 import com.platform.web.service.BaseServiceImpl;
 import com.platform.web.utils.PageVo;
-import com.platform.model.dto.user.SysAccountDto;
-import com.platform.model.vo.user.SysAccountVo;
-import com.platform.common.exception.SystemErrorCode;
-import com.platform.common.utils.ValidateUtils;
-import com.platform.common.annotation.AutoDictFieldValue;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.page.PageMethod;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 账户信息 服务实现类
@@ -48,11 +46,32 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccountMapper, Sys
     private SysOperationService operationService;
 
     @Override
-    public Long add(SysAccountDto dto) {
+    public Long register(SysAccountDto dto) {
         SysAccount entity = toEntity(dto);
         ValidateUtils.isTrue(entity.getId() != null, SystemErrorCode.PARAM_ERROR, SysAccount.ID);
         this.getBaseMapper().insert(entity);
         return entity.getId();
+    }
+
+    @Override
+    public void associate(AccountAssociateDto dto) {
+        ValidateUtils.isTrue(dto.getAssociatedAccountId() == null, "被关联账户不能为空");
+        ValidateUtils.isTrue(dto.getAccountId() == null, "关联账户不能为空");
+
+        SysAccount associatedAccount = baseMapper.selectById(dto.getAssociatedAccountId());
+        ValidateUtils.isTrue(associatedAccount == null, "被关联账户信息不存在");
+
+        if (associatedAccount.getUserId() != null) {
+            ValidateUtils.isTrue(userService.getById(associatedAccount.getUserId()) != null, "被关联账户已实名,请联系管理员进行处理");
+        }
+
+        SysAccount account = baseMapper.selectById(dto.getAccountId());
+        ValidateUtils.isTrue(account == null, "关联账户信息不存在");
+        ValidateUtils.isTrue(account.getUserId() == null, "请先进行实名认证");
+
+        associatedAccount.setUserId(account.getUserId());
+        baseMapper.updateById(associatedAccount);
+
     }
 
     @Override
@@ -70,7 +89,7 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccountMapper, Sys
         // 判断信息是否存在
         SysAccount one = this.getBaseMapper().selectById(dto.getId());
         ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "账户信息");
-        BeanUtils.copyProperties(entity, one);
+        BeanUtils.copyProperties(entity, one, SysAccount.ID, SysAccount.USER_ID, SysAccount.ACC_NAME);
         this.getBaseMapper().updateById(one);
     }
 
@@ -112,48 +131,48 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccountMapper, Sys
         oauthUserVo.setGrantedAuthorityList(new ArrayList<>());
 
         ValidateUtils.noEmpty(username, SysAccount.ACC_NAME);
-        LambdaQueryWrapper<SysAccount> accountQuery = new LambdaQueryWrapper<SysAccount>();
-        accountQuery.eq(SysAccount::getAccName,username);
+        LambdaQueryWrapper<SysAccount> accountQuery = new LambdaQueryWrapper<>();
+        accountQuery.eq(SysAccount::getAccName, username);
         // 查询账户信息
         SysAccount account = baseMapper.selectOne(accountQuery);
-        ValidateUtils.isTrue(account == null,"账户信息不存在");
+        ValidateUtils.isTrue(account == null, "账户信息不存在");
         oauthUserVo.setUsername(username);
         oauthUserVo.setPassword(account.getAccPwd());
 
         // 查询用户信息
         SysUser user = userService.getBaseMapper().selectById(account);
-        ValidateUtils.isTrue(user == null,"用户信息不存在");
+        ValidateUtils.isTrue(user == null, "用户信息不存在");
 
         // 查询角色信息
         SysUserRoleDto userRoleDto = new SysUserRoleDto();
         userRoleDto.setUserId(user.getId());
         List<SysUserRole> userRoles = userRoleService.queryByParams(new SysUserRole());
         List<Long> roleIds = userRoles.stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(roleIds)){
+        if (CollectionUtils.isEmpty(roleIds)) {
             return oauthUserVo;
         }
 
         // 查询权限信息
         LambdaQueryWrapper<SysRolePermission> roleQuery = new LambdaQueryWrapper<>();
-        roleQuery.in(SysRolePermission::getRoleId,roleIds);
+        roleQuery.in(SysRolePermission::getRoleId, roleIds);
         List<SysRolePermission> rolePermissions = rolePermissionService.getBaseMapper().selectList(roleQuery);
         List<Long> permissionIds = rolePermissions.stream().map(SysRolePermission::getPermissionId).collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(permissionIds)){
+        if (CollectionUtils.isEmpty(permissionIds)) {
             return oauthUserVo;
         }
 
         // 查询操作权限
         LambdaQueryWrapper<SysPermissionOperation> permissionQuery = new LambdaQueryWrapper<>();
-        permissionQuery.in(SysPermissionOperation::getPermissionId,permissionIds);
+        permissionQuery.in(SysPermissionOperation::getPermissionId, permissionIds);
         List<SysPermissionOperation> permissionOperations = permissionOperationService.getBaseMapper().selectList(permissionQuery);
         List<Long> operationIds = permissionOperations.stream().map(SysPermissionOperation::getOperationId).collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(operationIds)){
+        if (CollectionUtils.isEmpty(operationIds)) {
             return oauthUserVo;
         }
 
         // 查询权限信息
         LambdaQueryWrapper<SysOperation> operationQuery = new LambdaQueryWrapper<>();
-        operationQuery.in(SysOperation::getId,operationIds);
+        operationQuery.in(SysOperation::getId, operationIds);
         List<SysOperation> operations = operationService.getBaseMapper().selectList(operationQuery);
         List<String> operationFunc = operations.stream().map(SysOperation::getOperationFunc).collect(Collectors.toList());
         oauthUserVo.getGrantedAuthorityList().addAll(operationFunc);

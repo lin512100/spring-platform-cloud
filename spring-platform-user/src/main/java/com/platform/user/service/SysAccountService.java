@@ -1,6 +1,8 @@
 package com.platform.user.service;
 
 import java.util.List;
+
+import com.platform.model.dto.user.AccountAssociateDto;
 import com.platform.model.entity.user.SysAccount;
 import com.platform.model.vo.OauthUserVo;
 import com.platform.web.service.BaseService;
@@ -24,7 +26,14 @@ public interface SysAccountService extends BaseService<SysAccount> {
      * @param dto {@link SysAccountDto}
      * @return 新增主键
      */
-    Long add(SysAccountDto dto);
+    Long register(SysAccountDto dto);
+
+    /**
+     * 账号关联
+     * @param dto {@link AccountAssociateDto dto}
+     * */
+    void associate(AccountAssociateDto dto);
+
 
     /**
      * 账户信息删除

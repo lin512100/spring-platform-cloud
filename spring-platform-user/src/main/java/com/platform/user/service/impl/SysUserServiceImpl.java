@@ -22,6 +22,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.page.PageMethod;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 用户信息 服务实现类
@@ -32,45 +33,38 @@ import org.springframework.util.CollectionUtils;
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Override
-    public Long add(SysUserDto dto) {
+    public Long authentication(SysUserDto dto) {
         SysUser entity = toEntity(dto);
         ValidateUtils.isTrue(entity.getId() != null, SystemErrorCode.PARAM_ERROR, SysUser.ID);
+        ValidateUtils.isTrue(StringUtils.isEmpty(entity.getUserName()), SystemErrorCode.PARAM_ERROR, SysUser.USER_NAME);
+        ValidateUtils.isTrue(entity.getCredentialType() == null, SystemErrorCode.PARAM_ERROR, SysUser.CREDENTIAL_TYPE);
+        ValidateUtils.isTrue(StringUtils.isEmpty(entity.getCredentialNumber()), SystemErrorCode.PARAM_ERROR, SysUser.CREDENTIAL_NUMBER);
         this.getBaseMapper().insert(entity);
         return entity.getId();
     }
 
     @Override
-    public void del(SysUserDto dto) {
+    public void modifyStatus(SysUserDto dto) {
         ValidateUtils.noEmpty(dto.getId(), SysUser.ID);
         SysUser one = baseMapper.selectById(dto.getId());
         ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "用户信息");
-        this.baseMapper.deleteById(one.getId());
-    }
-
-    @Override
-    public void modify(SysUserDto dto) {
-        ValidateUtils.noEmpty(dto.getId(), SysUser.ID);
-        SysUser entity = toEntity(dto);
-        // 判断信息是否存在
-        SysUser one = this.getBaseMapper().selectById(dto.getId());
-        ValidateUtils.noEmpty(one, SystemErrorCode.DATA_ERROR_NONE, "用户信息");
-        BeanUtils.copyProperties(entity, one);
-        this.getBaseMapper().updateById(one);
+        one.setUserStatus(dto.getUserStatus());
+        this.baseMapper.updateById(one);
     }
 
     @Override
     public PageVo<SysUserVo> list(SysUserDto dto) {
         ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
         Page<SysUser> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(
-        () -> this.queryByParams(toEntity(dto)));
+                () -> this.queryByParams(toEntity(dto)));
         return new PageVo<>(page.getPageSize(), page.getPageNum(), page.getTotal(), assembleDataList(page.getResult()));
     }
 
     @Override
     public List<SysUserVo> assembleDataList(List<SysUser> dataList) {
-    if (CollectionUtils.isEmpty(dataList)) {
-        return new ArrayList<>();
-    }
+        if (CollectionUtils.isEmpty(dataList)) {
+            return new ArrayList<>();
+        }
         return dataList.stream().map(this::toVo).collect(Collectors.toList());
     }
 

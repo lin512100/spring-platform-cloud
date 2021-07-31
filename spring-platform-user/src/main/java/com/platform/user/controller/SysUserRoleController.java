@@ -17,7 +17,7 @@ import com.platform.user.service.SysUserRoleService;
  */
 @RestController
 @Api(tags = "用户角色中间表 前端控制器")
-@RequestMapping("/sysUserRole")
+@RequestMapping("/user_role")
 public class SysUserRoleController {
 
     @Resource

@@ -2,6 +2,7 @@ package com.platform.model.entity.user;
 
 import com.platform.common.annotation.DictValidation;
 import com.platform.model.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,6 +38,11 @@ public class SysAccount extends BaseEntity {
     @DictValidation(code = "acc_channel")
     private Integer channel;
 
+    /**
+     * 账户状态
+     */
+    @DictValidation(code = "acc_status")
+    private Integer accStatus;
 
     public static final String USER_ID = "user_id";
 
@@ -45,5 +51,7 @@ public class SysAccount extends BaseEntity {
     public static final String ACC_PWD = "acc_pwd";
 
     public static final String CHANNEL = "channel";
+
+    public static final String ACC_STATUS = "acc_status";
 
 }

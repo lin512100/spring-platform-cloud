@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.platform.model.base.BaseQuery;
 
+import java.time.LocalDateTime;
+
 /**
  * 用户信息 通用DTO实体类
  * @author lin512100
@@ -30,6 +32,11 @@ public class SysUserDto extends BaseQuery {
     @ApiModelProperty(value = "证件类型")
     private Integer credentialType;
 
-    @ApiModelProperty(value = "邮箱")
-    private String email;
+    @ApiModelProperty(value = "证件过期时间")
+    private LocalDateTime credentialExpires;
+
+    @ApiModelProperty(value = "用户状态")
+    private Integer userStatus;
+
+
     }

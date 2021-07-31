@@ -27,6 +27,9 @@ public class SysAccountDto extends BaseQuery {
     @ApiModelProperty(value = "账户名")
     private String accName;
 
+    @ApiModelProperty(value = "账户状态")
+    private Integer accStatus;
+
     @ApiModelProperty(value = "账户密码")
     private String accPwd;
 

@@ -1,6 +1,8 @@
 package com.platform.user.controller;
 
 import javax.annotation.Resource;
+
+import com.platform.model.dto.user.AccountAssociateDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -17,20 +19,27 @@ import com.platform.user.service.SysAccountService;
  */
 @RestController
 @Api(tags = "账户信息 前端控制器")
-@RequestMapping("/sysAccount")
+@RequestMapping("/account")
 public class SysAccountController {
 
     @Resource
     private SysAccountService service;
 
-    @PostMapping("/add")
+    @PostMapping("/register")
     @ApiOperation(value = "账户信息新增")
-    public ResultData<Long> add(@RequestBody SysAccountDto dto) {
-        return ResultData.success(service.add(dto));
+    public ResultData<Long> register(@RequestBody SysAccountDto dto) {
+        return ResultData.success(service.register(dto));
+    }
+
+    @PostMapping("/relevant")
+    @ApiOperation(value = "账户信息关联")
+    public ResultData<Long> associate(@RequestBody AccountAssociateDto dto) {
+        service.associate(dto);
+        return ResultData.success();
     }
 
     @PostMapping("/del")
-    @ApiOperation(value = "账户信息删除")
+    @ApiOperation(value = "账户信息注销")
     public ResultData<Void> del(@RequestBody SysAccountDto dto) {
         service.del(dto);
         return ResultData.success();

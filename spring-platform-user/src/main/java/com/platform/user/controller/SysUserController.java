@@ -21,29 +21,22 @@ import javax.annotation.Resource;
  */
 @RestController
 @Api(tags = "用户信息 前端控制器")
-@RequestMapping("/sysUser")
+@RequestMapping("/info")
 public class SysUserController {
 
     @Resource
     private SysUserService service;
 
-    @PostMapping("/add")
-    @ApiOperation(value = "用户信息新增")
+    @PostMapping("/authentication")
+    @ApiOperation(value = "用户实名认证")
     public ResultData<Long> add(@RequestBody SysUserDto dto) {
-        return ResultData.success(service.add(dto));
+        return ResultData.success(service.authentication(dto));
     }
 
-    @PostMapping("/del")
-    @ApiOperation(value = "用户信息删除")
-    public ResultData<Void> del(@RequestBody SysUserDto dto) {
-        service.del(dto);
-        return ResultData.success();
-    }
-
-    @PostMapping("/modify")
-    @ApiOperation(value = "用户信息修改")
-    public ResultData<Void> modify(@RequestBody SysUserDto dto) {
-        service.modify(dto);
+    @PostMapping("/modifyStatus")
+    @ApiOperation(value = "用户状态修改")
+    public ResultData<Void> modifyStatus(@RequestBody SysUserDto dto) {
+        service.modifyStatus(dto);
         return ResultData.success();
     }
 
@@ -52,7 +45,5 @@ public class SysUserController {
     public ResultData<PageVo<SysUserVo>> list(@RequestBody SysUserDto dto) {
         return ResultData.success(service.list(dto));
     }
-
-
 
 }

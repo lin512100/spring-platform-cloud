@@ -17,7 +17,7 @@ import com.platform.user.service.SysPermissionService;
  */
 @RestController
 @Api(tags = "权限信息 前端控制器")
-@RequestMapping("/sysPermission")
+@RequestMapping("/permission")
 public class SysPermissionController {
 
     @Resource

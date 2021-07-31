@@ -11,7 +11,7 @@ import com.platform.web.utils.PageVo;
 
 /**
  * <p>
- * 用户角色中间表 服务类
+ * 操作权限信息 服务类
  * </p>
  *
  * @author lin512100
@@ -20,26 +20,26 @@ import com.platform.web.utils.PageVo;
 public interface SysOperationService extends BaseService<SysOperation> {
 
     /**
-     * 用户角色中间表新增
+     * 操作权限信息新增
      * @param dto {@link SysOperationDto}
      * @return 新增主键
      */
     Long add(SysOperationDto dto);
 
     /**
-     * 用户角色中间表删除
+     * 操作权限信息删除
      * @param dto {@link SysOperationDto}
      */
     void del(SysOperationDto dto);
 
     /**
-     * 用户角色中间表修改
+     * 操作权限信息修改
      * @param dto {@link SysOperationDto}
      */
     void modify(SysOperationDto dto);
 
     /**
-     * 用户角色中间表列表
+     * 操作权限信息列表
      * @param dto {@link SysOperationDto}
      * @return {@link SysOperationVo}
      */

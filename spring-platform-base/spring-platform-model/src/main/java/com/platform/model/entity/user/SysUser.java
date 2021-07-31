@@ -1,8 +1,11 @@
 package com.platform.model.entity.user;
 
+import com.platform.common.annotation.DictValidation;
 import com.platform.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 /**
  * 用户信息
@@ -28,13 +31,19 @@ public class SysUser extends BaseEntity {
     /**
      * 证件类型
      */
+    @DictValidation(code = "credential_type")
     private Integer credentialType;
 
     /**
-     * 邮箱
+     * 证件过期时间
      */
-    private String email;
+    private LocalDateTime credentialExpires;
 
+    /**
+     * 用户状态
+     * */
+    @DictValidation(code = "user_status")
+    private Integer userStatus;
 
     public static final String USER_NAME = "user_name";
 
@@ -42,6 +51,8 @@ public class SysUser extends BaseEntity {
 
     public static final String CREDENTIAL_TYPE = "credential_type";
 
-    public static final String EMAIL = "email";
+    public static final String CREDENTIAL_EXPIRES = "credential_expires";
+
+    public static final String USER_STATUS = "user_status";
 
 }

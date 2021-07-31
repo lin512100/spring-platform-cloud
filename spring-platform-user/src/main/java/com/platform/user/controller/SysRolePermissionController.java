@@ -17,7 +17,7 @@ import com.platform.user.service.SysRolePermissionService;
  */
 @RestController
 @Api(tags = "角色权限中间表 前端控制器")
-@RequestMapping("/sysRolePermission")
+@RequestMapping("/role_permission")
 public class SysRolePermissionController {
 
     @Resource

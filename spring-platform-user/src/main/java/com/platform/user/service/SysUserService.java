@@ -20,23 +20,17 @@ import com.platform.model.vo.user.SysUserVo;
 public interface SysUserService extends BaseService<SysUser> {
 
     /**
-     * 用户信息新增
+     * 用户实名认证
      * @param dto {@link SysUserDto}
      * @return 新增主键
      */
-    Long add(SysUserDto dto);
+    Long authentication(SysUserDto dto);
 
     /**
-     * 用户信息删除
+     * 用户状态修改
      * @param dto {@link SysUserDto}
      */
-    void del(SysUserDto dto);
-
-    /**
-     * 用户信息修改
-     * @param dto {@link SysUserDto}
-     */
-    void modify(SysUserDto dto);
+    void modifyStatus(SysUserDto dto);
 
     /**
      * 用户信息列表

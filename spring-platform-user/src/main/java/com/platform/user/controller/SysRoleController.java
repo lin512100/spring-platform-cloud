@@ -17,7 +17,7 @@ import com.platform.user.service.SysRoleService;
  */
 @RestController
 @Api(tags = "角色信息 前端控制器")
-@RequestMapping("/sysRole")
+@RequestMapping("/role")
 public class SysRoleController {
 
     @Resource
