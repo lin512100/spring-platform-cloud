@@ -10,6 +10,8 @@ import com.platform.model.dto.basic.SysDictItemDto;
 import com.platform.model.vo.basic.SysDictItemVo;
 import com.platform.basic.dict.service.SysDictItemService;
 
+import java.util.List;
+
 /**
  * 字典项信息 前端控制器
  * @author lin512100
@@ -47,6 +49,12 @@ public class SysDictItemController {
     @ApiOperation(value = "字典项信息列表")
     public ResultData<PageVo<SysDictItemVo>> list(@RequestBody SysDictItemDto dto) {
         return ResultData.success(service.list(dto));
+    }
+
+    @GetMapping("/selectItem/{dictCode}")
+    @ApiOperation(value = "字典项下拉列表")
+    public ResultData<List<SysDictItemVo>> getSelectItem(@PathVariable("dictCode") String dictCode) {
+        return ResultData.success(service.selectItem(dictCode));
     }
 
 }

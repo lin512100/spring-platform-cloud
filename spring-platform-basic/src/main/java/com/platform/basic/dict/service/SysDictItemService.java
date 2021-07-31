@@ -45,6 +45,13 @@ public interface SysDictItemService extends BaseService<SysDictItem> {
     PageVo<SysDictItemVo> list(SysDictItemDto dto);
 
     /**
+     * 字典项下拉列表
+     * @param dictCode 字典编码
+     * @return {@link SysDictItemVo}
+     * */
+    List<SysDictItemVo> selectItem(String dictCode);
+
+    /**
     * 封装数据列表
     * @param dataList 数据列表
     * @return 封装的数据列表
