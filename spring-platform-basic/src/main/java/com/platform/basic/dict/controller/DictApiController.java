@@ -20,7 +20,7 @@ import static com.platform.openfeign.consts.BasicServiceApiUrl.GET_ALL_DICT;
 @RestController
 @Api(tags = "API接口-字典模块")
 @RequestMapping("/")
-public class SysDictApiController {
+public class DictApiController {
 
     @Resource
     private SysDictService sysDictService;
