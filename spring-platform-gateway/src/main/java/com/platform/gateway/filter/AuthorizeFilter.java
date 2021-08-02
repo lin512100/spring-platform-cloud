@@ -45,7 +45,10 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String requestUrl = exchange.getRequest().getPath().value();
         AntPathMatcher pathMatcher = new AntPathMatcher();
-
+        // 开放Token白名单
+        if(pathMatcher.isPattern("/oauth/**")){
+            return chain.filter(exchange);
+        }
 
         //2.检查token是否存在
         String token = getToken(exchange);
@@ -91,8 +94,7 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
         if(CollectionUtils.isEmpty(authorizations)){
             return null;
         }
-        String token = authorizations.get(0);
-        return token.replace(PRE_AUTHORIZATION,"");
+        return authorizations.get(0);
     }
 
     /**

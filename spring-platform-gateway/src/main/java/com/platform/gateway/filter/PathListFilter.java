@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 import static com.platform.gateway.consts.FilterOrderConst.PATH_FILTER;
 
 /**
- * 静止访问地址
+ * 禁止访问地址
  * @author lin512100
  * @date 2021/7/19
  */
