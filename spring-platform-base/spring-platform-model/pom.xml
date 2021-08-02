@@ -13,26 +13,10 @@
     <name>基础组件-数据模型-Model</name>
 
     <dependencies>
-        <!-- swagger2 -->
-        <!--修改版本 解决ApiModelProperty Integer类型未设定默认值会导致报错的问题-->
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <!-- swagger2 ui-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
+            <artifactId>springfox-boot-starter</artifactId>
         </dependency>
 
         <dependency>

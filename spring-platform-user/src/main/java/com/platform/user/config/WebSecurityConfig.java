@@ -20,13 +20,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
             .antMatchers(
-                "/doc.html","/webjars/**","/swagger-resources/**","/v2/**",
-                "/actuator/**","/oauth/authorize","/oauth/**").permitAll()
+                "/**").permitAll()
 //                .antMatchers("/**").access("#oauth2.hasScope('ROLE_ADMIN')")
                 //.antMatchers("/order").hasRole("p1")
                 .anyRequest().authenticated();
         http.addFilterAfter(new TokenAuthenticationFilter(), HeaderWriterFilter.class);
-
-
     }
 }

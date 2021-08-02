@@ -5,23 +5,21 @@ spring:
 #        locator:
 #          enabled: true               # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由
       routes:
-        - id: oauth
-          # uri: lb://PLATFORM-OAUTH
-          uri: http://localhost:5203
+        - id: platform-oauth
+          uri: lb://PLATFORM-OAUTH
           predicates:
-            - Path=/oauth/**
+            - Path=/platform-oauth/**
           filters:
             - StripPrefix=1
-        - id: user
-#          uri: lb://PLATFORM-USER
-          uri: http://localhost:5202
+        - id: platform-user
+          uri: lb://PLATFORM-USER
           predicates:
-            - Path=/user/**
+            - Path=/platform-user/**
           filters:
             - StripPrefix=1
-        - id: basic
-          uri: http://localhost:5205
+        - id: platform-basic
+          uri: http://PLATFORM-BASIC
           predicates:
-            - Path=/basic/**
+            - Path=/platform-basic/**
           filters:
             - StripPrefix=1

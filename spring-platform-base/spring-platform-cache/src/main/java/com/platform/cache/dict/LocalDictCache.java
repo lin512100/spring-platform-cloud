@@ -1,6 +1,5 @@
 package com.platform.cache.dict;
 
-import com.google.common.collect.Maps;
 import com.platform.common.utils.SpringBeanUtils;
 import com.platform.model.vo.basic.SysDictAllVo;
 import com.platform.model.vo.basic.SysDictVo;
@@ -12,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class LocalDictCache implements DictCache{
 
-    private static Map<String, SysDictAllVo> sysDictAll = Maps.newConcurrentMap();
+    private static Map<String, SysDictAllVo> sysDictAll = new ConcurrentHashMap<>();
 
     /**
      * 定时加载数据

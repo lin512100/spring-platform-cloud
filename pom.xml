@@ -27,10 +27,6 @@
         <lombok-version>1.18.16</lombok-version>
         <spring-boot-version>2.2.5.RELEASE</spring-boot-version>
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
-        <swagger.version>2.9.2</swagger.version>
-        <swagger-bootstrap-ui.version>1.9.5</swagger-bootstrap-ui.version>
-        <swagger-annotations.version>1.5.22</swagger-annotations.version>
-        <swagger-models.version>1.5.22</swagger-models.version>
         <fastjson.version>1.2.68</fastjson.version>
         <mybatis-plus-generator.version>3.4.0</mybatis-plus-generator.version>
         <mybatis-plus-boot-starter.version>3.4.0</mybatis-plus-boot-starter.version>
@@ -142,43 +138,25 @@
                 <version>${admin-server.version}</version>
             </dependency>
 
-            <!-- swagger2 -->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-                <exclusions>
-                    <!--解决AbstractSerializableParameter异常-->
-                    <exclusion>
-                        <groupId>io.swagger</groupId>
-                        <artifactId>swagger-models</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <!-- swagger2 ui-->
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>swagger-bootstrap-ui</artifactId>
-                <version>${swagger-bootstrap-ui.version}</version>
-            </dependency>
-            <!--修改版本 解决ApiModelProperty Integer类型未设定默认值会导致报错的问题-->
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger-models.version}</version>
-            </dependency>
-
             <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-jwt</artifactId>
                 <version>${jwt.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>1.9.6</version>
+            </dependency>
+
 
 
             <!--    druid  -->
