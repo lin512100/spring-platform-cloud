@@ -7,8 +7,8 @@ import com.platform.model.dto.basic.FileUploadDto;
 import com.platform.model.dto.basic.SysFileDto;
 import com.platform.model.entity.basic.SysFile;
 import com.platform.model.vo.basic.SysFileVo;
-import com.platform.web.service.BaseService;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseService;
+import com.platform.mybatis.utils.PageVo;
 
 import javax.servlet.http.HttpServletResponse;
 

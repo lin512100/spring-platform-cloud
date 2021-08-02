@@ -1,7 +1,7 @@
 package com.platform.basic.file.mapper;
 
 import com.platform.model.entity.basic.SysFile;
-import com.platform.web.service.BaseMapper;
+import com.platform.mybatis.service.BaseMapper;
 
 /**
  * 文件信息 Mapper 接口

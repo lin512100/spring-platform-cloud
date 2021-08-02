@@ -1,4 +1,4 @@
-package com.platform.web.handler;
+package com.platform.mybatis.handler;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

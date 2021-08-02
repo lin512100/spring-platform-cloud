@@ -5,7 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import com.platform.common.response.ResultData;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.utils.PageVo;
 import com.platform.model.dto.user.SysPermissionDto;
 import com.platform.model.vo.user.SysPermissionVo;
 import com.platform.user.service.SysPermissionService;

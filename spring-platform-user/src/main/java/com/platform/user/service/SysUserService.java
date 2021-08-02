@@ -2,9 +2,8 @@ package com.platform.user.service;
 
 import java.util.List;
 import com.platform.model.entity.user.SysUser;
-import com.platform.model.vo.OauthUserVo;
-import com.platform.web.service.BaseService;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseService;
+import com.platform.mybatis.utils.PageVo;
 import com.platform.model.dto.user.SysUserDto;
 import com.platform.model.vo.user.SysUserVo;
 

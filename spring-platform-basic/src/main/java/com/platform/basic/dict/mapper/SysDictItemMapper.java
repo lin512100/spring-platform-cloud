@@ -1,7 +1,7 @@
 package com.platform.basic.dict.mapper;
 
 import com.platform.model.entity.basic.SysDictItem;
-import com.platform.web.service.BaseMapper;
+import com.platform.mybatis.service.BaseMapper;
 
 /**
  * 字典项信息 Mapper 接口

@@ -1,4 +1,4 @@
-package com.platform.web.utils;
+package com.platform.mybatis.utils;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -24,7 +24,7 @@ import java.util.*;
 @Profile({"dev","test"})
 @ConditionalOnExpression("${swagger.enable:true}")
 public class SwaggerConfiguration implements WebMvcConfigurer{
-    //enable是否启动swagger，如果为False则Swagger不能在浏览器访问
+
     @Bean
     @ConditionalOnMissingBean(Docket.class)
     public Docket docket() {

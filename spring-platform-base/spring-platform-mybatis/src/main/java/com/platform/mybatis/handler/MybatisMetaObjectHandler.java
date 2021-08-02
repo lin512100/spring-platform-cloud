@@ -1,4 +1,4 @@
-package com.platform.web.handler;
+package com.platform.mybatis.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.platform.common.enums.ValidEnum;

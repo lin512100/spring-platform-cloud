@@ -5,8 +5,8 @@ import java.util.List;
 import com.platform.model.dto.user.SysPermissionOperationDto;
 import com.platform.model.entity.user.SysPermissionOperation;
 import com.platform.model.vo.user.SysPermissionOperationVo;
-import com.platform.web.service.BaseService;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseService;
+import com.platform.mybatis.utils.PageVo;
 
 
 /**

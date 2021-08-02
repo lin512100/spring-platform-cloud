@@ -1,8 +1,8 @@
-package com.platform.web.service;
+package com.platform.mybatis.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.platform.web.utils.MysqlDbUtils;
+import com.platform.mybatis.utils.MysqlDbUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

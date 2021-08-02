@@ -4,7 +4,7 @@ import com.platform.basic.dict.service.SysDictService;
 import com.platform.common.response.ResultData;
 import com.platform.model.dto.basic.SysDictDto;
 import com.platform.model.vo.basic.SysDictVo;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.utils.PageVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -2,8 +2,8 @@ package com.platform.oauth.service;
 
 import java.util.List;
 import com.platform.oauth.entity.OauthClientDetails;
-import com.platform.web.service.BaseService;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseService;
+import com.platform.mybatis.utils.PageVo;
 import com.platform.oauth.pojo.dto.OauthClientDetailsDto;
 import com.platform.oauth.pojo.vo.OauthClientDetailsVo;
 

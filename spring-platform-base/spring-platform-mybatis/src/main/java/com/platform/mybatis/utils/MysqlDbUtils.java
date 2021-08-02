@@ -1,4 +1,4 @@
-package com.platform.web.utils;
+package com.platform.mybatis.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.platform.common.utils.ConvertUtils;

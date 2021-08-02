@@ -1,17 +1,14 @@
-package com.platform.web.handler;
+package com.platform.mybatis.handler;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.platform.cache.dict.DictCache;
 import com.platform.common.utils.ReflexUtils;
 import com.platform.common.annotation.DictValidation;
 import com.platform.model.base.BaseEntity;
-import com.platform.model.vo.basic.SysDictAllVo;
-import com.platform.model.vo.basic.SysDictItemVo;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.ibatis.binding.MapperMethod;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.springframework.context.annotation.Lazy;

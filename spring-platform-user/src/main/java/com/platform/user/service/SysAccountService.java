@@ -5,8 +5,8 @@ import java.util.List;
 import com.platform.model.dto.user.AccountAssociateDto;
 import com.platform.model.entity.user.SysAccount;
 import com.platform.model.vo.OauthUserVo;
-import com.platform.web.service.BaseService;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseService;
+import com.platform.mybatis.utils.PageVo;
 import com.platform.model.dto.user.SysAccountDto;
 import com.platform.model.vo.user.SysAccountVo;
 

@@ -2,8 +2,8 @@ package com.platform.user.service;
 
 import java.util.List;
 import com.platform.model.entity.user.SysPermission;
-import com.platform.web.service.BaseService;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseService;
+import com.platform.mybatis.utils.PageVo;
 import com.platform.model.dto.user.SysPermissionDto;
 import com.platform.model.vo.user.SysPermissionVo;
 

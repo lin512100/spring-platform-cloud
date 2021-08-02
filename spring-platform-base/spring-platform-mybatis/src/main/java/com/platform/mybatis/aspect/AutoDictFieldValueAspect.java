@@ -1,4 +1,4 @@
-package com.platform.web.aspect;
+package com.platform.mybatis.aspect;
 
 import com.platform.cache.dict.DictCache;
 import com.platform.common.annotation.DictValidation;

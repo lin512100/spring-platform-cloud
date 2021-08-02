@@ -1,4 +1,4 @@
-package com.platform.web.service;
+package com.platform.mybatis.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 

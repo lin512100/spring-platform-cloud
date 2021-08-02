@@ -1,4 +1,4 @@
-package com.platform.web.generator;
+package com.platform.mybatis.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -71,11 +71,11 @@ public class GeneratorApplication {
         // 自定义实体，公共字段
         strategy.setSuperEntityColumns("id", "creator", "create_time", "updater", "update_time", "valid");
         // 自定义 mapper 父类
-        strategy.setSuperMapperClass("com.platform.web.service.BaseMapper");
+        strategy.setSuperMapperClass("com.platform.mybatis.service.BaseMapper");
         // 自定义 service 父类
-        strategy.setSuperServiceClass("com.platform.web.service.BaseService");
+        strategy.setSuperServiceClass("com.platform.mybatis.service.BaseService");
         // 自定义 service 实现类父类
-        strategy.setSuperServiceImplClass("com.platform.web.service.BaseServiceImpl");
+        strategy.setSuperServiceImplClass("com.platform.mybatis.service.BaseServiceImpl");
         // 【实体】是否生成字段常量（默认 false）
         strategy.setEntityColumnConstant(true);
         // 生成Rest风格
@@ -104,7 +104,7 @@ public class GeneratorApplication {
         String response = "com.platform.common.response";
         String exception = "com.platform.common.exception";
         String annotation = "com.platform.web.annotation";
-        String packageWebUtils = "com.platform.web.utils";
+        String packageWebUtils = "com.platform.mybatis.utils";
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {

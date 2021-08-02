@@ -3,8 +3,8 @@ package com.platform.basic.dict.service;
 import java.util.List;
 import com.platform.model.entity.basic.SysDict;
 import com.platform.model.vo.basic.SysDictAllVo;
-import com.platform.web.service.BaseService;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseService;
+import com.platform.mybatis.utils.PageVo;
 import com.platform.model.dto.basic.SysDictDto;
 import com.platform.model.vo.basic.SysDictVo;
 

@@ -1,7 +1,7 @@
 package com.platform.oauth.mapper;
 
 import com.platform.oauth.entity.OauthClientDetails;
-import com.platform.web.service.BaseMapper;
+import com.platform.mybatis.service.BaseMapper;
 
 /**
  * 授权认证信息 Mapper 接口

@@ -1,7 +1,7 @@
 package com.platform.user.mapper;
 
 import com.platform.model.entity.user.SysOperation;
-import com.platform.web.service.BaseMapper;
+import com.platform.mybatis.service.BaseMapper;
 
 /**
  * 用户角色中间表 Mapper 接口

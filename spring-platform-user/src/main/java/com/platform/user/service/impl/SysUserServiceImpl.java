@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import com.platform.common.exception.SystemException;
-import com.platform.model.dto.user.SysAccountDto;
 import com.platform.model.entity.user.SysUser;
-import com.platform.model.vo.OauthUserVo;
 import com.platform.user.mapper.SysUserMapper;
 import com.platform.user.service.SysUserService;
-import com.platform.web.service.BaseServiceImpl;
-import com.platform.web.utils.PageVo;
+import com.platform.mybatis.service.BaseServiceImpl;
+import com.platform.mybatis.utils.PageVo;
 import com.platform.model.dto.user.SysUserDto;
 import com.platform.model.vo.user.SysUserVo;
 import com.platform.common.exception.SystemErrorCode;
