@@ -4,7 +4,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,7 +20,6 @@ import java.util.*;
  * @date 2020/2/24 14:05
  */
 @Configuration
-@Profile({"dev","test"})
 @ConditionalOnExpression("${swagger.enable:true}")
 public class SwaggerConfiguration implements WebMvcConfigurer{
 

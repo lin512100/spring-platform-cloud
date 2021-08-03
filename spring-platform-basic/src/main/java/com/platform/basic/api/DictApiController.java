@@ -1,4 +1,4 @@
-package com.platform.basic.dict.controller;
+package com.platform.basic.api;
 
 import com.platform.basic.dict.service.SysDictService;
 import com.platform.model.vo.basic.SysDictAllVo;
