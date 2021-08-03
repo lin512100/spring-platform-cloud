@@ -1,6 +1,7 @@
 package com.platform.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.gateway.cache.WhiteRouteCache;
 import com.platform.gateway.consts.FilterOrderConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -32,8 +33,8 @@ import static com.platform.common.consts.SecurityConst.*;
  * @author lin512100
  * @date 7/18/2021
  */
-@Component
 @Slf4j
+@Component
 public class AuthorizeFilter implements GlobalFilter, Ordered {
 
     private final static String USER_NAME = "user_name";
@@ -41,12 +42,14 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
     @Resource
     private TokenStore tokenStore;
 
+    @Resource
+    private WhiteRouteCache whiteRouteCache;
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String requestUrl = exchange.getRequest().getPath().value();
-        AntPathMatcher pathMatcher = new AntPathMatcher();
         // 开放Token白名单
-        if(pathMatcher.isPattern("/oauth/**")){
+        if(whiteRouteCache.matcherUrl(requestUrl)){
             return chain.filter(exchange);
         }
 

@@ -3,7 +3,7 @@ package com.platform.basic.file.service;
 import java.io.IOException;
 import java.util.List;
 
-import com.platform.model.dto.basic.FileUploadDto;
+import com.platform.basic.file.model.dto.FileUploadDto;
 import com.platform.model.dto.basic.SysFileDto;
 import com.platform.model.entity.basic.SysFile;
 import com.platform.model.vo.basic.SysFileVo;

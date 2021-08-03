@@ -1,4 +1,4 @@
-package com.platform.mybatis.utils;
+package com.platform.web.utils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;

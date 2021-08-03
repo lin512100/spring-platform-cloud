@@ -13,7 +13,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,27 +25,6 @@ import static com.platform.common.consts.SecurityConst.PRE_AUTHORIZATION;
  * @date 2021/6/29
  */
 public class FeignUtils {
-
-    /**
-     * 获取用户自带的Token
-     */
-    public static String getUserToken() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-            .getRequestAttributes();
-        if (null != attributes) {
-            HttpServletRequest request = attributes.getRequest();
-            Enumeration<String> headerNames = request.getHeaderNames();
-            if (headerNames != null) {
-                while (headerNames.hasMoreElements()) {
-                    String name = headerNames.nextElement();
-                    if(name.equals(SecurityConst.AUTHORIZATION.toLowerCase())){
-                        return request.getHeader(name);
-                    }
-                }
-            }
-        }
-        throw new RuntimeException("获取用户Token失败");
-    }
 
     /**
      * 获取系统Token

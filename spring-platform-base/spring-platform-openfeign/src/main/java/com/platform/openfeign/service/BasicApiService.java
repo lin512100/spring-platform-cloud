@@ -7,6 +7,7 @@ import com.platform.model.vo.basic.SysWhiteRouteVo;
 import com.platform.openfeign.consts.ServiceConst;
 import com.platform.openfeign.service.impl.BasicApiServiceImpl;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -19,6 +20,7 @@ import static com.platform.openfeign.consts.BasicServiceApiUrl.*;
  * @author lin512100
  * @date 2021/7/22
  */
+@Lazy
 @FeignClient(value = ServiceConst.PLATFORM_BASIC, fallback = BasicApiServiceImpl.class)
 public interface BasicApiService {
 

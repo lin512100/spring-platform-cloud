@@ -7,18 +7,21 @@ spring:
       routes:
         - id: platform-oauth
           uri: lb://PLATFORM-OAUTH
+#          uri: lb://127.0.0.1:5203
           predicates:
             - Path=/platform-oauth/**
           filters:
             - StripPrefix=1
         - id: platform-user
           uri: lb://PLATFORM-USER
+#          uri: lb://127.0.0.1:5202
           predicates:
             - Path=/platform-user/**
           filters:
             - StripPrefix=1
         - id: platform-basic
           uri: http://PLATFORM-BASIC
+#          uri: lb://127.0.0.1:5205
           predicates:
             - Path=/platform-basic/**
           filters:

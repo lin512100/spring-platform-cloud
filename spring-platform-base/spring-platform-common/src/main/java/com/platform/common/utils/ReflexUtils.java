@@ -5,7 +5,6 @@ import com.platform.common.exception.SystemErrorCode;
 import com.platform.common.exception.SystemException;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

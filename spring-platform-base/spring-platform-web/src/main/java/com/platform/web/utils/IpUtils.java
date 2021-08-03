@@ -1,4 +1,4 @@
-package com.platform.mybatis.utils;
+package com.platform.web.utils;
 
 import com.platform.common.consts.StringConst;
 

@@ -10,3 +10,7 @@ spring:
 server:
   port: 5201
 debug: true
+customer:
+  feign:
+    client-id: Admin
+    client-secret: Admin

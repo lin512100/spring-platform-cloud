@@ -2,8 +2,6 @@ package com.platform.gateway.cache;
 
 import com.platform.common.utils.SpringBeanUtils;
 import com.platform.model.vo.basic.SysWhiteRouteVo;
-import com.platform.model.vo.basic.SysDictAllVo;
-import com.platform.model.vo.basic.SysDictVo;
 import com.platform.openfeign.service.BasicApiService;
 import com.platform.openfeign.utils.FeignUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +27,8 @@ public class InMemoryWhiteRouteCache implements WhiteRouteCache {
     /**
      * 定时加载数据
      * */
-    @Scheduled(cron = "0 0/15 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
+    // @Scheduled(cron = "* * * * * ? *")
     protected void preload() {
         log.info("EntDicCache..preload..synchronous start");
         // 加载数据到内存
@@ -54,6 +53,10 @@ public class InMemoryWhiteRouteCache implements WhiteRouteCache {
 
     @Override
     public List<SysWhiteRouteVo> getAllWhiteRoute() {
+        // 判断数据是否已经加载
+        if(BLACK_ROUTE.isEmpty()){
+            loadData();
+        }
         return new ArrayList<>(BLACK_ROUTE.values());
     }
 }

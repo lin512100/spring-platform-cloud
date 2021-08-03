@@ -2,7 +2,7 @@ package com.platform.basic.file.controller;
 
 import com.platform.basic.file.service.SysFileService;
 import com.platform.common.response.ResultData;
-import com.platform.model.dto.basic.FileUploadDto;
+import com.platform.basic.file.model.dto.FileUploadDto;
 import com.platform.model.dto.basic.SysFileDto;
 import com.platform.model.vo.basic.SysFileVo;
 import io.swagger.annotations.Api;

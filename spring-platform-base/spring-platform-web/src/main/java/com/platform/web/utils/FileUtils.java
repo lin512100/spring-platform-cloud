@@ -1,4 +1,4 @@
-package com.platform.common.utils;
+package com.platform.web.utils;
 
 
 import com.platform.common.consts.StringConst;

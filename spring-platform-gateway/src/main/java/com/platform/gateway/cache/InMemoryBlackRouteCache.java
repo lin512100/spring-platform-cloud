@@ -2,10 +2,6 @@ package com.platform.gateway.cache;
 
 import com.platform.common.utils.SpringBeanUtils;
 import com.platform.model.vo.basic.SysBlackRouteVo;
-import com.platform.model.vo.basic.SysDictAllVo;
-import com.platform.model.vo.basic.SysDictVo;
-import com.platform.openfeign.service.BasicApiService;
-import com.platform.openfeign.utils.FeignUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +26,7 @@ public class InMemoryBlackRouteCache implements BlackRouteCache{
      * 定时加载数据
      * */
     @Scheduled(cron = "0 0/15 * * * ?")
+    // @Scheduled(cron = "* * * * * ? *")
     protected void preload() {
         log.info("EntDicCache..preload..synchronous start");
         // 加载数据到内存
@@ -42,8 +39,7 @@ public class InMemoryBlackRouteCache implements BlackRouteCache{
             if(SpringBeanUtils.applicationContext == null){
                 throw new RuntimeException("未能加载全局上下文（BeanUtils.applicationContext = SpringApplication.run(XXX.class);）");
             }
-            BasicApiService basicApiService = SpringBeanUtils.getBean(BasicApiService.class);
-            List<SysBlackRouteVo> blackRoute = basicApiService.getAllBlackRoute(FeignUtils.getInnerToken());
+            List<SysBlackRouteVo> blackRoute = new ArrayList<>();
             if(CollectionUtils.isEmpty(blackRoute)){
                 log.info("LocalDictCache load dict is null!");
                 return;
@@ -54,6 +50,10 @@ public class InMemoryBlackRouteCache implements BlackRouteCache{
 
     @Override
     public List<SysBlackRouteVo> getAllBlackRoute() {
+        // 判断数据是否已经加载
+        if(BLACK_ROUTE.isEmpty()){
+            loadData();
+        }
         return new ArrayList<>(BLACK_ROUTE.values());
     }
 
