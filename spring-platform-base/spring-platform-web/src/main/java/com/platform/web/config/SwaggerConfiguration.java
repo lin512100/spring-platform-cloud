@@ -54,7 +54,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer{
         return new ApiInfo("API文档",
             "智能云平台文档",
             "1.0",
-            "xiaotangstudio.cn",
+            "dudouquetang",
             contact,
             "Apache 2.0",
             "http://www.apache.org/licenses/LICENSE-2.0",
