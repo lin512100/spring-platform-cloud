@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-07-21
  */
 @RestController
-@Api(tags = "用户登录授权模块")
+@Api(tags = "用户授权模块")
 public class UserController {
 
     @Autowired
