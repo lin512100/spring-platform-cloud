@@ -1,4 +1,4 @@
-package com.platform.oauth.service;
+package com.platform.oauth.service.impl;
 
 import com.platform.oauth.vo.SysUserVO;
 import lombok.extern.slf4j.Slf4j;

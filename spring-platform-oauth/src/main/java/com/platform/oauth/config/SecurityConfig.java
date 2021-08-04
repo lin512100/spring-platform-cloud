@@ -1,6 +1,6 @@
 package com.platform.oauth.config;
 
-import com.platform.oauth.service.UserDetailsServiceImpl;
+import com.platform.oauth.service.impl.UserDetailsServiceImpl;
 import com.platform.web.filter.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
