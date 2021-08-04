@@ -8,6 +8,11 @@ package com.platform.openfeign.consts;
 public class BasicServiceApiUrl {
 
     /**
+     * 服务请求路径前缀
+     */
+    public static final String PRE_BASIC_SERVICE = "/platform-basic";
+
+    /**
      * 获取所有字典信息
      */
     public static final String GET_ALL_DICT = "/getAllDict";

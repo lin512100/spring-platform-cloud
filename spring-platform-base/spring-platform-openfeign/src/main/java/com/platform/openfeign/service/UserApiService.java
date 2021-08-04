@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static com.platform.openfeign.consts.BasicServiceApiUrl.PRE_BASIC_SERVICE;
+import static com.platform.openfeign.consts.UserServiceApiUrl.LOAD_USER_BY_USERNAME;
+import static com.platform.openfeign.consts.UserServiceApiUrl.PRE_USER_SERVICE;
+
 /**
  * 用户服务类
  * @author lin512100
@@ -23,6 +27,6 @@ public interface UserApiService {
      * @param authorization 调用token
      * @return {@link OauthUserVo}
      */
-    @GetMapping(UserServiceApiUrl.LOAD_USER_BY_USERNAME)
+    @GetMapping(PRE_USER_SERVICE + LOAD_USER_BY_USERNAME)
     OauthUserVo loadUserByUsername(@RequestParam("username") String username, @RequestHeader(SecurityConst.AUTHORIZATION) String authorization);
 }

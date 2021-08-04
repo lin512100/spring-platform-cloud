@@ -6,23 +6,14 @@ spring:
 #          enabled: true               # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由
       routes:
         - id: platform-oauth
-#          uri: lb://PLATFORM-OAUTH
-          uri: lb://127.0.0.1:5203
+          uri: lb://PLATFORM-OAUTH
           predicates:
             - Path=/platform-oauth/**
-          filters:
-            - StripPrefix=1
         - id: platform-user
-#          uri: lb://PLATFORM-USER
-          uri: lb://127.0.0.1:5202
+          uri: lb://PLATFORM-USER
           predicates:
             - Path=/platform-user/**
-          filters:
-            - StripPrefix=1
         - id: platform-basic
-#          uri: http://PLATFORM-BASIC
-          uri: lb://127.0.0.1:5205
+          uri: lb://PLATFORM-BASIC
           predicates:
             - Path=/platform-basic/**
-          filters:
-            - StripPrefix=1

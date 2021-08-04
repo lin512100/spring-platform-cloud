@@ -6,3 +6,7 @@
 |管理服务|5204|PLATFORM-ADMIN|
 |底层服务|5205|PLATFORM-BASIC|
 
+
+ADMIN 应用注册
+
+

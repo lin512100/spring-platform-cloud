@@ -29,7 +29,7 @@ public interface BasicApiService {
      * @param authorization  授权信息
      * @return List
      */
-    @GetMapping(GET_ALL_DICT)
+    @GetMapping(PRE_BASIC_SERVICE + GET_ALL_DICT)
     List<SysDictAllVo> getAllDict(@RequestHeader(SecurityConst.AUTHORIZATION) String authorization);
 
     /**
@@ -37,7 +37,7 @@ public interface BasicApiService {
      * @param authorization  授权信息
      * @return List
      * */
-    @GetMapping(GET_ALL_BLACK_ROUTE)
+    @GetMapping(PRE_BASIC_SERVICE + GET_ALL_BLACK_ROUTE)
     List<SysBlackRouteVo> getAllBlackRoute(@RequestHeader(SecurityConst.AUTHORIZATION) String authorization);
 
     /**
@@ -45,6 +45,6 @@ public interface BasicApiService {
      * @param authorization  授权信息
      * @return List
      * */
-    @GetMapping(GET_ALL_WHITE_ROUTE)
+    @GetMapping(PRE_BASIC_SERVICE + GET_ALL_WHITE_ROUTE)
     List<SysWhiteRouteVo> getAllWhiteRoute(@RequestHeader(SecurityConst.AUTHORIZATION) String authorization);
 }

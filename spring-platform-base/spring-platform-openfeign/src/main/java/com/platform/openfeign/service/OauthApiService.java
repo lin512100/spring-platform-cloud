@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
+import static com.platform.openfeign.consts.OauthServiceApiUrl.GET_SYSTEM_OAUTH_TOKEN;
+import static com.platform.openfeign.consts.OauthServiceApiUrl.PRE_OAUTH_SERVICE;
+
 
 /**
  * Oauth服务类
@@ -25,6 +28,6 @@ public interface OauthApiService {
      * @param parameters 授权信息
      * @return String
      */
-    @PostMapping(value = OauthServiceApiUrl.GET_SYSTEM_OAUTH_TOKEN)
+    @PostMapping(PRE_OAUTH_SERVICE + GET_SYSTEM_OAUTH_TOKEN)
     ResponseEntity<OAuth2AccessToken> getServiceToken(@RequestParam Map<String, String> parameters);
 }

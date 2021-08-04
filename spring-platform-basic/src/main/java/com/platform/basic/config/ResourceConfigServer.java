@@ -59,10 +59,9 @@ public class ResourceConfigServer extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers(
-                "/doc.html", "/webjars/**", "/swagger-resources/**", "/v2/**",
-                "/actuator/**", "/oauth/authorize", "/oauth/**","/uploads/**").permitAll()
-            .antMatchers("/**")
-            .access("#oauth2.hasScope('ROLE_ADMIN')")
+                "/**").permitAll()
+            // .antMatchers("/**")
+            // .access("#oauth2.hasScope('ROLE_ADMIN')")
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

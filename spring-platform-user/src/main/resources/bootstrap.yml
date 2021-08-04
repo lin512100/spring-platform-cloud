@@ -16,6 +16,8 @@ spring:
     active: mysql,redis,admin,sentinel
 server:
   port: 5202
+  servlet:
+    context-path: /platform-user
 customer:
   feign:
     client-id: Admin
