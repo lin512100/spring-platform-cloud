@@ -10,6 +10,7 @@ public class StringConst {
     public static final String EMPTY = "";
     public static final String SEQ = ",";
     public static final String DELI = "|";
+    public static final String BIAS = "/";
     public static final String STRIKE = "-";
     public static final String COMMA = "、";
     public static final String UNDERLINE = "_";

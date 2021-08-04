@@ -53,7 +53,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
         Set<String> addServer = new HashSet<>();
         routeHosts.forEach(instance -> {
             // 拼接url
-            String url = StringConst.DELI + instance.toLowerCase() + SWAGGER2URL;
+            String url = StringConst.BIAS + instance.toLowerCase() + SWAGGER2URL;
             if (!addServer.contains(url)) {
                 addServer.add(url);
                 SwaggerResource swaggerResource = new SwaggerResource();
