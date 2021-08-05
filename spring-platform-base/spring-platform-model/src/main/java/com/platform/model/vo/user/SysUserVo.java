@@ -31,7 +31,7 @@ public class SysUserVo implements Serializable {
     private Integer credentialType;
 
     @ApiModelProperty(value = "证件类型描述")
-    private Integer credentialTypeDesc;
+    private String credentialTypeDesc;
 
     @ApiModelProperty(value = "证件过期时间")
     private LocalDateTime credentialExpires;
