@@ -1,9 +1,11 @@
 package com.platform.user.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.platform.model.entity.user.SysUser;
 import com.platform.user.mapper.SysUserMapper;
 import com.platform.user.service.SysUserService;
@@ -32,12 +34,23 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Override
     public Long authentication(SysUserDto dto) {
         SysUser entity = toEntity(dto);
-        ValidateUtils.isTrue(entity.getId() != null, SystemErrorCode.PARAM_ERROR, SysUser.ID);
-        ValidateUtils.isTrue(StringUtils.isEmpty(entity.getUserName()), SystemErrorCode.PARAM_ERROR, SysUser.USER_NAME);
-        ValidateUtils.isTrue(entity.getCredentialType() == null, SystemErrorCode.PARAM_ERROR, SysUser.CREDENTIAL_TYPE);
-        ValidateUtils.isTrue(StringUtils.isEmpty(entity.getCredentialNumber()), SystemErrorCode.PARAM_ERROR, SysUser.CREDENTIAL_NUMBER);
-        this.getBaseMapper().insert(entity);
-        return entity.getId();
+        ValidateUtils.noEmpty(entity.getId(), SysUser.ID);
+        ValidateUtils.noEmpty(StringUtils.isEmpty(entity.getUserName()), SysUser.USER_NAME);
+        ValidateUtils.noEmpty(entity.getCredentialType(), SysUser.CREDENTIAL_TYPE);
+        ValidateUtils.noEmpty(entity.getCredentialNumber(), SysUser.CREDENTIAL_NUMBER);
+        // 校验之前是否已经实名
+        LambdaQueryWrapper<SysUser> query = new LambdaQueryWrapper<>();
+        query.eq(SysUser::getCredentialType, dto.getCredentialType());
+        query.eq(SysUser::getCredentialNumber, dto.getCredentialNumber());
+        SysUser sysUser = this.getBaseMapper().selectOne(query);
+        if (sysUser == null) {
+            this.getBaseMapper().insert(entity);
+            return entity.getId();
+        }
+        // 只更新证件日期
+        sysUser.setCredentialExpires(dto.getCredentialExpires());
+        baseMapper.updateById(sysUser);
+        return sysUser.getId();
     }
 
     @Override
@@ -53,7 +66,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public PageVo<SysUserVo> list(SysUserDto dto) {
         ValidateUtils.isTrue(dto.getPageNo() == null || dto.getPageSize() == null, "分页参数");
         Page<SysUser> page = PageMethod.startPage(dto.getPageNo(), dto.getPageSize()).doSelectPage(
-                () -> this.queryByParams(toEntity(dto)));
+            () -> this.queryByParams(toEntity(dto)));
         return new PageVo<>(page.getPageSize(), page.getPageNum(), page.getTotal(), assembleDataList(page.getResult()));
     }
 

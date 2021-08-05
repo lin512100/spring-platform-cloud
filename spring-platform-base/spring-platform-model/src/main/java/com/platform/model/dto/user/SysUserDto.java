@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @ApiModel("用户信息通用实体DTO类")
 @EqualsAndHashCode(callSuper = true)
-public class SysUserDto extends BaseQuery {
+public class  SysUserDto extends BaseQuery {
 
     private static final long serialVersionUID = 1L;
 
