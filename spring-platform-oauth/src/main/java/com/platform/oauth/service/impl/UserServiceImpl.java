@@ -2,7 +2,6 @@ package com.platform.oauth.service.impl;
 
 import com.platform.common.utils.ValidateUtils;
 import com.platform.model.dto.oauth.AccountLoginDto;
-import com.platform.model.dto.user.SysAccountDto;
 import com.platform.oauth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,7 +11,6 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.MapUtils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -31,8 +29,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     private ClientDetailsService clientDetailsService;
 
-    @Resource
-    private AuthorizationServerTokenServices authorizationServerTokenServices;
+    @Autowired
+    private AuthorizationServerTokenServices tokenServices;
 
     @Override
     public OAuth2AccessToken login(AccountLoginDto dto, Authentication authentication) {
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
         ValidateUtils.isTrue(clientDetails.getClientSecret().equals(dto.getClientSecret()), "客户端秘钥不正确");
 
         // 创建TokenRequest
-        TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), dto.getClientId(), clientDetails.getScope(), "custom");
+        TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), dto.getClientId(), clientDetails.getScope(), "password");
 
         // 构建OAuth2Request
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
@@ -59,6 +57,6 @@ public class UserServiceImpl implements UserService {
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 
         // 构建OAuth2AccessToken
-        return authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+        return tokenServices.createAccessToken(oAuth2Authentication);
     }
 }

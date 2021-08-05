@@ -13,8 +13,8 @@ import lombok.*;
 public class BaseQuery {
 
     @ApiModelProperty(value = "页码 获取列表必传")
-    private Integer pageNo;
+    private Integer pageNo = 1;
 
     @ApiModelProperty(value = "行数 获取列表必传")
-    private Integer pageSize;
+    private Integer pageSize = 10;
 }

@@ -20,6 +20,9 @@ public class OauthUserVo {
     @ApiModelProperty(value = "密码")
     private String password;
 
+    @ApiModelProperty(value = "渠道类型")
+    private Integer channel;
+
     @ApiModelProperty(value = "角色权限")
     private List<String> grantedAuthorityList;
 }

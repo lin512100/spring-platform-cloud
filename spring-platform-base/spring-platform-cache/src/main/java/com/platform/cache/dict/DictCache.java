@@ -98,7 +98,7 @@ public interface DictCache {
      */
     default String findDictItemDescByCodeAndValue(String dictCode, String value) {
         SysDictItemVo dictItemVo = findDictItemByCodeAndValue(dictCode, value);
-        return (dictItemVo == null) ? "未知" : dictItemVo.getItemDescription();
+        return (dictItemVo == null) ? "未知" : dictItemVo.getItemText();
     }
 
 }

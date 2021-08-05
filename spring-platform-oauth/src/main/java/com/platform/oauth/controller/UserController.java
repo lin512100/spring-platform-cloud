@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,14 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = "用户授权模块")
+@RequestMapping("/token")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login")
+    @PostMapping("/pwd")
     @ApiOperation(value = "用户信息登录")
-    public ResultData<OAuth2AccessToken> add(@RequestBody AccountLoginDto dto, Authentication authentication) {
+    public ResultData<OAuth2AccessToken> pwd(@RequestBody AccountLoginDto dto, Authentication authentication) {
         return ResultData.success(userService.login(dto, authentication));
     }
 

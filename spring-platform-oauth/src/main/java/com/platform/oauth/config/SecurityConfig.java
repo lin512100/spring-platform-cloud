@@ -31,8 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //首页可以访问，其他都要认证
         http.authorizeRequests()
                 .antMatchers(
-                    "doc.html","/webjars/**","/swagger-resources/**","/v2/**",
-                    "/login*","/actuator/**","/oauth/authorize","/oauth/**").permitAll()
+                    "/token/pwd","doc.html","/webjars/**","/swagger-resources/**","/v2/**",
+                    "/actuator/**").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic();
         http.formLogin();

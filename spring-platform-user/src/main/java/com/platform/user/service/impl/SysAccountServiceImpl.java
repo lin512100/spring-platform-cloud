@@ -138,6 +138,7 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccountMapper, Sys
         ValidateUtils.isTrue(account == null, "账户信息不存在");
         oauthUserVo.setUsername(username);
         oauthUserVo.setPassword(account.getAccPwd());
+        oauthUserVo.setChannel(account.getChannel());
 
         // 查询用户信息
         SysUser user = userService.getBaseMapper().selectById(account);

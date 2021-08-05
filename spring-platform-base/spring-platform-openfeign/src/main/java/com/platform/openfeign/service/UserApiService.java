@@ -4,6 +4,7 @@ import com.platform.common.consts.SecurityConst;
 import com.platform.model.vo.OauthUserVo;
 import com.platform.openfeign.consts.ServiceConst;
 import com.platform.openfeign.consts.UserServiceApiUrl;
+import com.platform.openfeign.service.impl.UserApiServiceImpl;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,7 +19,7 @@ import static com.platform.openfeign.consts.UserServiceApiUrl.PRE_USER_SERVICE;
  * @author lin512100
  * @date 2021/6/29
  */
-@FeignClient(value = ServiceConst.PLATFORM_USER)
+@FeignClient(value = ServiceConst.PLATFORM_USER,fallback = UserApiServiceImpl.class)
 public interface UserApiService {
 
     /**

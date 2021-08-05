@@ -1,6 +1,9 @@
 package com.platform.oauth.service.impl;
 
+import com.platform.model.vo.OauthUserVo;
 import com.platform.oauth.vo.SysUserVO;
+import com.platform.openfeign.service.UserApiService;
+import com.platform.openfeign.utils.FeignUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 密码登录
@@ -21,10 +26,14 @@ import java.util.Collections;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Resource
-    private PasswordEncoder passwordEncoder;
+    private UserApiService userApiService;
 
     @Override
     public SysUserVO loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new SysUserVO(username, passwordEncoder.encode(username), Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
+        OauthUserVo oauthUserVo = userApiService.loadUserByUsername(username, FeignUtils.getInnerToken());
+        List<SimpleGrantedAuthority> authorities = oauthUserVo.getGrantedAuthorityList().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        SysUserVO userVO =  new SysUserVO(username, oauthUserVo.getPassword(), authorities);
+        userVO.setChannel(oauthUserVo.getChannel());
+        return userVO;
     }
 }
