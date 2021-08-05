@@ -1,27 +1,27 @@
 package com.platform.user.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.platform.model.entity.user.SysUser;
-import com.platform.user.mapper.SysUserMapper;
-import com.platform.user.service.SysUserService;
-import com.platform.mybatis.service.BaseServiceImpl;
-import com.platform.mybatis.utils.PageVo;
-import com.platform.model.dto.user.SysUserDto;
-import com.platform.model.vo.user.SysUserVo;
-import com.platform.common.exception.SystemErrorCode;
-import com.platform.common.utils.ValidateUtils;
-import com.platform.common.annotation.AutoDictFieldValue;
-import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.page.PageMethod;
+import com.platform.common.annotation.AutoDictFieldValue;
+import com.platform.common.exception.SystemErrorCode;
+import com.platform.common.utils.SpringBeanUtils;
+import com.platform.common.utils.ValidateUtils;
+import com.platform.model.dto.user.SysUserDto;
+import com.platform.model.entity.user.SysUser;
+import com.platform.model.vo.user.SysUserVo;
+import com.platform.mybatis.service.BaseServiceImpl;
+import com.platform.mybatis.utils.PageVo;
+import com.platform.user.mapper.SysUserMapper;
+import com.platform.user.service.SysUserService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息 服务实现类
@@ -75,7 +75,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (CollectionUtils.isEmpty(dataList)) {
             return new ArrayList<>();
         }
-        return dataList.stream().map(this::toVo).collect(Collectors.toList());
+        return dataList.stream().map(SpringBeanUtils.getBean(SysUserService.class)::toVo).collect(Collectors.toList());
     }
 
     @Override
