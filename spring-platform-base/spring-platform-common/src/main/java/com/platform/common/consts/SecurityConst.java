@@ -5,6 +5,12 @@ package com.platform.common.consts;
  * @date 2021/7/19
  */
 public class SecurityConst {
+
+    /**
+     * JWT 增强信息
+     * @
+     * */
+    public final static String JWT_USER_INFO = "user_info";
     /**
      * 加密密钥
      */

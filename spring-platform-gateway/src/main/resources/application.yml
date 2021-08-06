@@ -14,3 +14,6 @@ customer:
   feign:
     client-id: Admin
     client-secret: Admin
+logging:
+  file:
+    path: /root/serviceLogs/

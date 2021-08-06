@@ -1,5 +1,6 @@
 package com.platform.oauth.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,16 +15,16 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static com.platform.common.consts.SecurityConst.SIGNING_KEY;
 
@@ -43,9 +44,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private PasswordEncoder passwordEncoder;
 
     @Resource
-    private AuthorizationCodeServices authorizationCodeServices;
-
-    @Resource
     private JwtAccessTokenConverter accessTokenConverter;
 
     @Resource
@@ -55,13 +53,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private DataSource dataSource;
 
     /**
-     *将客户端信息存储到数据库  ,参照JdbcClientDetailsService源码里数据库建表
+     * 将客户端信息存储到数据库  ,参照JdbcClientDetailsService源码里数据库建表
      */
-   private ClientDetailsService clientDetailsService(){
-       JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
-       clientDetailsService.setPasswordEncoder(passwordEncoder);
-       return clientDetailsService;
-   }
+    private ClientDetailsService clientDetailsService() {
+        JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
+        clientDetailsService.setPasswordEncoder(passwordEncoder);
+        return clientDetailsService;
+    }
 
     /**
      * 配置一个客户端
@@ -69,38 +67,38 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-       clients.withClientDetails(clientDetailsService());
+        clients.withClientDetails(clientDetailsService());
     }
 
     /**
      * 配置令牌访问端点
-     * */
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        List<TokenEnhancer> enhancers = new ArrayList<>();
+        //添加自定义jwt信息
+        enhancers.add(tokenEnhancer());
+        //将access_token转换成jwt
+        enhancers.add(accessTokenConverter());
+        enhancerChain.setTokenEnhancers(enhancers);
+
         endpoints
-                //认证管理器(密码模式所需要的)
-                .authenticationManager(authenticationManager)
-                //授权码服务
-                .authorizationCodeServices(authorizationCodeServices)
-                //令牌管理服务
-                .tokenServices(tokenServices())
-                //允许post提交访问令牌
-                .allowedTokenEndpointRequestMethods(HttpMethod.POST);
+            // 自定义JWT
+            .tokenEnhancer(enhancerChain)
+            //认证管理器(密码模式所需要的)
+            .authenticationManager(authenticationManager)
+            //令牌管理服务
+            .tokenServices(tokenServices())
+            //允许post提交访问令牌
+            .allowedTokenEndpointRequestMethods(HttpMethod.POST);
     }
-
-    /**
-     * 设置授权码模式的授权码如何存取
-     */
-    @Bean
-    public AuthorizationCodeServices authorizationCodeServices(DataSource dataSource){
-        return new InMemoryAuthorizationCodeServices();
-    }
-
     /**
      * 配置token的管理
      */
     @Bean
-    public AuthorizationServerTokenServices tokenServices(){
+    public AuthorizationServerTokenServices tokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         //客户端详情服务
         tokenServices.setClientDetailsService(clientDetailsService());
@@ -112,7 +110,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         //令牌增强  使用jwt令牌
         //使用jwt令牌来替代默认令牌，这样做的好处是携带默认令牌访问资源，每次都要通过授权服务来认证令牌是否有效，而jwt则可以做到资源服务中自己解析从而判断令牌的有效性；另外一个优势就是jwt令牌有更高的安全性，可以使用公钥和私钥进行加密和解密，不容易被破解。
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Collections.singletonList(accessTokenConverter));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(),accessTokenConverter));
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
         // 令牌默认有效期2小时
@@ -127,8 +125,16 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
      * 也可以采用JdbcTokenStore，JwtTokenStore。
      */
     @Bean
-    public TokenStore tokenStore(){
+    public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
+    }
+
+    /**
+     * Token 额外信息
+     */
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new CustomTokenEnhancer();
     }
 
     @Bean
@@ -145,12 +151,12 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
-                //oauth/token_key是公开
-                .tokenKeyAccess("permitAll()")
-                //oauth/check_token   已经验证了的客户端才能请求check_token 端点
-                .checkTokenAccess("permitAll()")
-                //表单认证（申请令牌）
-                .allowFormAuthenticationForClients();
+            //oauth/token_key是公开
+            .tokenKeyAccess("permitAll()")
+            //oauth/check_token   已经验证了的客户端才能请求check_token 端点
+            .checkTokenAccess("permitAll()")
+            //表单认证（申请令牌）
+            .allowFormAuthenticationForClients();
 
     }
 }

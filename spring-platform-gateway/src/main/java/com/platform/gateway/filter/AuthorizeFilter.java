@@ -63,6 +63,7 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
         try {
             oAuth2AccessToken = tokenStore.readAccessToken(token);
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
+            System.out.println(additionalInformation.get("aa"));
             //取出用户身份信息
             String principal  = String.valueOf(additionalInformation.get(USER_NAME));
             //获取用户的权限

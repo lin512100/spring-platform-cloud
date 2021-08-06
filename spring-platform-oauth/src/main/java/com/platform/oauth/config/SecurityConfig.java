@@ -24,6 +24,7 @@ import org.springframework.security.web.header.HeaderWriterFilter;
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true,jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //跨域伪造请求无效

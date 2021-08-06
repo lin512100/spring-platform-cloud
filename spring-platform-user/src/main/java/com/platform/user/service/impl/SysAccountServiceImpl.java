@@ -141,8 +141,8 @@ public class SysAccountServiceImpl extends BaseServiceImpl<SysAccountMapper, Sys
         oauthUserVo.setChannel(account.getChannel());
 
         // 查询用户信息
-        SysUser user = userService.getBaseMapper().selectById(account);
-        ValidateUtils.isTrue(user == null, "用户信息不存在");
+        SysUser user = userService.getBaseMapper().selectById(account.getUserId());
+        ValidateUtils.noEmpty(user , "用户信息");
 
         // 查询角色信息
         SysUserRoleDto userRoleDto = new SysUserRoleDto();

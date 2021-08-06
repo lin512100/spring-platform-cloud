@@ -6,3 +6,5 @@ server:
 logging:
   level:
     org.springframework: DEBUG
+  file:
+    path: /root/serviceLogs/

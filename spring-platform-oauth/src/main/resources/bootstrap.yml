@@ -11,10 +11,10 @@ server:
   port: 5203
   servlet:
     context-path: /platform-oauth
-logging:
-  level:
-    org.springframework: DEBUG
+  file:
+    path: /root/serviceLogs/
 customer:
   feign:
     client-id: Admin
     client-secret: Admin
+
