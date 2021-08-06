@@ -35,6 +35,12 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.platform</groupId>
+            <artifactId>spring-platform-security</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>

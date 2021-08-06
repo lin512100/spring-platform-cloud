@@ -48,13 +48,14 @@ public class UserServiceImpl implements UserService {
         ValidateUtils.isTrue(clientDetails.getClientSecret().equals(dto.getClientSecret()), "客户端秘钥不正确");
 
         // 创建TokenRequest
-        TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), dto.getClientId(), clientDetails.getScope(), "password");
+        TokenRequest tokenRequest = new TokenRequest(new HashMap<>(1), dto.getClientId(), clientDetails.getScope(), "password");
 
         // 构建OAuth2Request
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 
         // 构建OAuth2Authentication
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+        oAuth2Authentication.setDetails(userDetails);
 
         // 构建OAuth2AccessToken
         return tokenServices.createAccessToken(oAuth2Authentication);

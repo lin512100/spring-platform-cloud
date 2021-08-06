@@ -1,6 +1,6 @@
 package com.platform.oauth.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.platform.security.config.JwtAccessToken;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,8 +13,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -22,7 +20,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,9 +42,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Resource
     private JwtAccessTokenConverter accessTokenConverter;
-
-    @Resource
-    private TokenStore tokenStore;
 
     @Resource
     private DataSource dataSource;
@@ -78,15 +72,11 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> enhancers = new ArrayList<>();
-        //添加自定义jwt信息
-        enhancers.add(tokenEnhancer());
         //将access_token转换成jwt
-        enhancers.add(accessTokenConverter());
+        enhancers.add(jwtAccessTokenConverter());
         enhancerChain.setTokenEnhancers(enhancers);
 
         endpoints
-            // 自定义JWT
-            .tokenEnhancer(enhancerChain)
             //认证管理器(密码模式所需要的)
             .authenticationManager(authenticationManager)
             //令牌管理服务
@@ -94,6 +84,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
             //允许post提交访问令牌
             .allowedTokenEndpointRequestMethods(HttpMethod.POST);
     }
+
+
     /**
      * 配置token的管理
      */
@@ -105,12 +97,11 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         //支持刷新令牌
         tokenServices.setSupportRefreshToken(true);
         //令牌存储策略
-        tokenServices.setTokenStore(tokenStore);
+        tokenServices.setTokenStore(tokenStore());
 
         //令牌增强  使用jwt令牌
-        //使用jwt令牌来替代默认令牌，这样做的好处是携带默认令牌访问资源，每次都要通过授权服务来认证令牌是否有效，而jwt则可以做到资源服务中自己解析从而判断令牌的有效性；另外一个优势就是jwt令牌有更高的安全性，可以使用公钥和私钥进行加密和解密，不容易被破解。
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(),accessTokenConverter));
+        tokenEnhancerChain.setTokenEnhancers(Collections.singletonList(accessTokenConverter));
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
         // 令牌默认有效期2小时
@@ -126,20 +117,12 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Bean
     public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
-
-    /**
-     * Token 额外信息
-     */
-    @Bean
-    public TokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
+        return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessToken();
         //对称秘钥，资源服务器使用该秘钥来验证
         converter.setSigningKey(SIGNING_KEY);
         return converter;

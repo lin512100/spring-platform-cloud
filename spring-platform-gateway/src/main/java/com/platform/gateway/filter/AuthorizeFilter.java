@@ -3,6 +3,7 @@ package com.platform.gateway.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.gateway.cache.WhiteRouteCache;
 import com.platform.gateway.consts.FilterOrderConst;
+import com.platform.model.vo.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -49,36 +50,37 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String requestUrl = exchange.getRequest().getPath().value();
         // 开放Token白名单
-        if(whiteRouteCache.matcherUrl(requestUrl)){
+        if (whiteRouteCache.matcherUrl(requestUrl)) {
             return chain.filter(exchange);
         }
 
-        //2.检查token是否存在
+        // 校验TOKEN是否正常
         String token = getToken(exchange);
-        if(StringUtils.isEmpty(token)){
-           return noTokenMono(exchange);
+        if (StringUtils.isEmpty(token)) {
+            return noTokenMono(exchange);
         }
-        //3.判断是不是有效的token
+
+        // 校验Token是否正常
         OAuth2AccessToken oAuth2AccessToken;
         try {
             oAuth2AccessToken = tokenStore.readAccessToken(token);
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
-            System.out.println(additionalInformation.get("aa"));
+
             //取出用户身份信息
-            String principal  = String.valueOf(additionalInformation.get(USER_NAME));
+            JSONObject json = new JSONObject();
+            if (additionalInformation.containsKey(JWT_USER_INFO)) {
+                UserInfo userInfo = JSONObject.parseObject(String.valueOf(additionalInformation.get(JWT_USER_INFO)), UserInfo.class);
+            }
+            String principal = String.valueOf(additionalInformation.get(USER_NAME));
             //获取用户的权限
             Object authorities = additionalInformation.get(AUTHORITIES);
 
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put(PRINCIPAL,principal);
-            jsonObject.put(AUTHORITIES,authorities);
             //给header里面添加值
             //String encode = new BCryptPasswordEncoder().encode(jsonObject.toJSONString());  //加密
-            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(ACCESS_TOKEN, jsonObject.toJSONString()).build();
-            System.out.println(jsonObject.toJSONString());
+            ServerHttpRequest tokenRequest = exchange.getRequest().mutate().header(ACCESS_TOKEN, json.toJSONString()).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
             return chain.filter(build);
-        }catch (InvalidTokenException e){
+        } catch (InvalidTokenException e) {
             log.info("无效的token: {}", token);
             return invalidTokenMono(exchange);
         }
@@ -93,9 +95,9 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
     /**
      * 获取token
      */
-    private String getToken(ServerWebExchange exchange){
+    private String getToken(ServerWebExchange exchange) {
         List<String> authorizations = exchange.getRequest().getHeaders().get(AUTHORIZATION);
-        if(CollectionUtils.isEmpty(authorizations)){
+        if (CollectionUtils.isEmpty(authorizations)) {
             return null;
         }
         return authorizations.get(0);
@@ -104,18 +106,18 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
     /**
      * 没有token
      */
-    private Mono<Void> noTokenMono(ServerWebExchange exchange){
+    private Mono<Void> noTokenMono(ServerWebExchange exchange) {
         JSONObject json = new JSONObject();
         json.put("status", HttpStatus.UNAUTHORIZED);
-        json.put("data","权限不足");
-        return jsonToMono(json,exchange);
+        json.put("data", "权限不足");
+        return jsonToMono(json, exchange);
     }
 
     /**
      * 将json字符串转换为Mono的格式,并添加到相应中去
      * @param json JSON数据
      */
-    private Mono<Void> jsonToMono(JSONObject json, ServerWebExchange exchange){
+    private Mono<Void> jsonToMono(JSONObject json, ServerWebExchange exchange) {
         ServerHttpResponse response = exchange.getResponse();
         byte[] bytes = json.toJSONString().getBytes(StandardCharsets.UTF_8);
         DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
@@ -128,9 +130,9 @@ public class AuthorizeFilter implements GlobalFilter, Ordered {
     /**
      * 无效的token
      */
-    private Mono<Void> invalidTokenMono(ServerWebExchange exchange){
+    private Mono<Void> invalidTokenMono(ServerWebExchange exchange) {
         JSONObject json = new JSONObject();
-        json.put("status",HttpStatus.UNAUTHORIZED);
+        json.put("status", HttpStatus.UNAUTHORIZED);
         json.put("data", "无效的token");
         return jsonToMono(json, exchange);
     }

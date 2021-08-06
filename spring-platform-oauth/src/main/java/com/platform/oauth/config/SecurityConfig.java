@@ -1,7 +1,7 @@
 package com.platform.oauth.config;
 
 import com.platform.oauth.service.impl.UserDetailsServiceImpl;
-import com.platform.web.filter.TokenAuthenticationFilter;
+import com.platform.security.filter.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

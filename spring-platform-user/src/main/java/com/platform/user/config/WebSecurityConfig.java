@@ -1,6 +1,6 @@
 package com.platform.user.config;
 
-import com.platform.web.filter.TokenAuthenticationFilter;
+import com.platform.security.filter.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

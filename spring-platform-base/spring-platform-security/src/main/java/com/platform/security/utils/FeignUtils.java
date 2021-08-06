@@ -1,4 +1,4 @@
-package com.platform.web.utils;
+package com.platform.security.utils;
 
 import com.platform.common.consts.SecurityConst;
 import org.springframework.web.context.request.RequestContextHolder;

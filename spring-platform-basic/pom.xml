@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.platform</groupId>
-            <artifactId>spring-platform-web</artifactId>
+            <artifactId>spring-platform-security</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
